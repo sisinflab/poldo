@@ -1,4 +1,4 @@
-package r2rq;
+package poldo;
 
 import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Literal;

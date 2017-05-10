@@ -1,4 +1,4 @@
-package r2rq;
+package poldo;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
 @Path("/endpoint")
 public class Endpoint {
 
-    public static final String PREFIX = "r2rq";
+    public static final String PREFIX = "poldo";
 
     public static String DEFAULT_NAMESPACE = "http://sisinflab.poliba.it/semanticweb/lod/poldo/";
 

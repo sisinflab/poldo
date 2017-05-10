@@ -1,34 +1,34 @@
-package r2rq;
+package poldo;
 
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import java.util.Map;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-
-public class ValuesJSON {
+public class JoinResource {
 
     private JsonFactory factory;
     private ObjectMapper mapper;
     private int count;
-    private int prec_count;
-    private List<String> valueList;
+    private int level;
+    HashMap <Integer, ArrayList<String>> valueList;
 
-    public ValuesJSON(){
+    public JoinResource(){
 
         factory  = new JsonFactory();
-        mapper   = new ObjectMapper(factory);
         count = 0;
-        prec_count = 0;
-        valueList = new ArrayList<String>();
-
+        level = 0;
     }
 
-    public List<String> getValuesData(String json,ArrayList<String> path) throws IOException{
+    public HashMap <Integer, ArrayList<String>> getValuesData(String json,ArrayList<String> path) throws IOException{
 
-        //input: json string
+      /*input: json string*/
         mapper = new ObjectMapper(factory);
         JsonNode rootNode = mapper.readTree(json);
 
@@ -50,7 +50,7 @@ public class ValuesJSON {
 
         if(field.getValue().isObject()){
 
-              /*handle JSON Object*/
+              /*handle JSON Objest*/
 
 
             if(field.getKey().equals(path.get(count).toString()) == true){
@@ -70,14 +70,17 @@ public class ValuesJSON {
                         if(k1.equals(path.get(count).toString()) == true){
 
                             count = count + 1;
-
-                            String v1 = fielOBJ.getValue().toString();
-                            valueList.add(v1);
+                            level++;
+                            ArrayList<String> v1 = new ArrayList<String>();
+                            v1.add(fielOBJ.getValue().toString());
+                            valueList.put(level, v1);
 
                             count = count - 1;
                         }
                     }else{
-                        //recursive call for nested structures
+                            /*
+                            recursive call for nested structures
+                            */
                         checkStructure(fielOBJ,path);
                     }
                 }
@@ -111,8 +114,11 @@ public class ValuesJSON {
 
                                 count = count + 1;
 
-                                String v2 = arrayfield.getValue().toString();
-                                valueList.add(v2);
+                                level++;
+                                ArrayList<String> v2 = new ArrayList<String>();
+                                v2.add(arrayfield.getValue().toString());
+                                valueList.put(level, v2);
+
 
                                 count = count - 1;
                             }
@@ -133,12 +139,14 @@ public class ValuesJSON {
 
             /*handle JSON Data*/
             String k3 = field.getKey();
-            String v3 = field.getValue().toString();
 
             if(k3.equals(path.get(count).toString()) == true){
-                //System.out.println(v3);
-                valueList.add(v3);
+                level++;
+                ArrayList<String> v3 = new ArrayList<String>();
+                v3.add(field.getValue().toString());
+                valueList.put(level, v3);
             }
         }
     }
+
 }
