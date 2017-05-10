@@ -1,0 +1,366 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix prefix: <http://nostronamespace.com/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output11
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "latitude" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast ;
+        owl:samePropertyAs         <http://www.w3.org/2003/01/geo/wgs84_pos#lat> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output24
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "to" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast ;
+        owl:samePropertyAs         <http://www.w3.org/2006/time#hasEnd> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output37
+        rdfs:label                 "temperature" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output41 , prefix:api-openweathermap-org-data-2-5-forecast-output40 , prefix:api-openweathermap-org-data-2-5-forecast-output39 , prefix:api-openweathermap-org-data-2-5-forecast-output38 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output31
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "code" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output44
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "value" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output16
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "calctime" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output29
+        rdfs:label                 "precipitation" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast
+        prefix:hasInput     prefix:api-openweathermap-org-data-2-5-forecast-input1 , prefix:api-openweathermap-org-data-2-5-forecast-input2 , prefix:api-openweathermap-org-data-2-5-forecast-input3 ;
+        prefix:hasLanguage  "xml" ;
+        prefix:hasOutput    prefix:api-openweathermap-org-data-2-5-forecast-output1 ;
+        prefix:hasUrl       "http://api.openweathermap.org/data/2.5/forecast" .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output5
+        a                          <http://dbpedia.org/ontology/Place> ;
+        rdfs:label                 "country" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output10
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "geobaseid" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output51
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "value" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output23
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "from" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast ;
+        owl:samePropertyAs         <http://www.w3.org/2006/time#hasBeginning> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output36
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "name" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output49
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "all" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output30
+        rdfs:label                 "windDirection" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output33 , prefix:api-openweathermap-org-data-2-5-forecast-output32 , prefix:api-openweathermap-org-data-2-5-forecast-output31 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output43
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "unit" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output15
+        rdfs:label                 "lastupdate" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output28
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "var" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output4
+        rdfs:label                 "type" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output50
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "unit" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output22
+        a                          rdf:Bag ;
+        rdf:li                     prefix:api-openweathermap-org-data-2-5-forecast-output48 , prefix:api-openweathermap-org-data-2-5-forecast-output34 , prefix:api-openweathermap-org-data-2-5-forecast-output37 , prefix:api-openweathermap-org-data-2-5-forecast-output45 , prefix:api-openweathermap-org-data-2-5-forecast-output29 , prefix:api-openweathermap-org-data-2-5-forecast-output25 , prefix:api-openweathermap-org-data-2-5-forecast-output30 , prefix:api-openweathermap-org-data-2-5-forecast-output42 ;
+        rdfs:label                 "time" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output23 , prefix:api-openweathermap-org-data-2-5-forecast-output24 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output35
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "mps" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output48
+        rdfs:label                 "clouds" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output51 , prefix:api-openweathermap-org-data-2-5-forecast-output50 , prefix:api-openweathermap-org-data-2-5-forecast-output49 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output9
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "geobase" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output42
+        rdfs:label                 "pressure" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output44 , prefix:api-openweathermap-org-data-2-5-forecast-output43 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output14
+        a                          rdf:Bag ;
+        rdf:li                     prefix:api-openweathermap-org-data-2-5-forecast-output17 , prefix:api-openweathermap-org-data-2-5-forecast-output16 , prefix:api-openweathermap-org-data-2-5-forecast-output15 ;
+        rdfs:label                 "meta" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output27
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "number" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output3
+        a                          <http://dbpedia.org/ontology/Place> ;
+        rdfs:label                 "name" ;
+        <http://dbpedia.org/ontology/country>
+                prefix:api-openweathermap-org-data-2-5-forecast-output5 ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output21
+        a                          rdf:Bag ;
+        rdf:li                     prefix:api-openweathermap-org-data-2-5-forecast-output22 ;
+        rdfs:label                 "forecast" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output34
+        rdfs:label                 "windSpeed" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output36 , prefix:api-openweathermap-org-data-2-5-forecast-output35 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output47
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "value" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-input3
+        a                     prefix:api-openweathermap-org-data-2-5-forecast-input3key ;
+        prefix:hasFixedValue  "b28c143078073301fb80d18ae307c2d0" ;
+        prefix:isRequired     true ;
+        prefix:paramName      "appid" .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output19
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "rise" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output8
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "altitude" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output41
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "value" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output13
+        rdfs:label                 "credit" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output26
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "name" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast ;
+        owl:samePropertyAs         <http://purl.org/iot/vocab/m3-lite#WeatherPrediction> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output2
+        a                          rdf:Bag ;
+        rdf:li                     prefix:api-openweathermap-org-data-2-5-forecast-output7 , prefix:api-openweathermap-org-data-2-5-forecast-output6 , prefix:api-openweathermap-org-data-2-5-forecast-output5 , prefix:api-openweathermap-org-data-2-5-forecast-output4 , prefix:api-openweathermap-org-data-2-5-forecast-output3 ;
+        rdfs:label                 "location" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output39
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "min" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output20
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "set" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output33
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "name" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output46
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "unit" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-input2
+        a                     prefix:api-openweathermap-org-data-2-5-forecast-input2key ;
+        prefix:hasFixedValue  "xml" ;
+        prefix:isRequired     true ;
+        prefix:paramName      "mode" .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output18
+        rdfs:label                 "sun" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output20 , prefix:api-openweathermap-org-data-2-5-forecast-output19 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output7
+        rdfs:label                 "location" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output12 , prefix:api-openweathermap-org-data-2-5-forecast-output11 , prefix:api-openweathermap-org-data-2-5-forecast-output10 , prefix:api-openweathermap-org-data-2-5-forecast-output9 , prefix:api-openweathermap-org-data-2-5-forecast-output8 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output40
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "unit" ;
+        prefix:content             "String" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output12
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "longitude" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast ;
+        owl:samePropertyAs         <http://www.w3.org/2003/01/geo/wgs84_pos#long> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-resource1
+        a       prefix:customResource ;
+        prefix:api-openweathermap-org-data-2-5-forecast-output23
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        prefix:api-openweathermap-org-data-2-5-forecast-output24
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        prefix:api-openweathermap-org-data-2-5-forecast-output26
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output25
+        rdfs:label                 "symbol" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output28 , prefix:api-openweathermap-org-data-2-5-forecast-output27 , prefix:api-openweathermap-org-data-2-5-forecast-output26 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output1
+        a                          rdf:Bag ;
+        rdf:li                     prefix:api-openweathermap-org-data-2-5-forecast-output21 , prefix:api-openweathermap-org-data-2-5-forecast-output18 , prefix:api-openweathermap-org-data-2-5-forecast-output14 , prefix:api-openweathermap-org-data-2-5-forecast-output13 , prefix:api-openweathermap-org-data-2-5-forecast-output2 ;
+        rdfs:label                 "weatherdata" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output38
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "max" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output32
+        a                          owl:DatatypeProperty ;
+        rdfs:label                 "deg" ;
+        prefix:content             "Number" ;
+        prefix:isData              true ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output45
+        rdfs:label                 "humidity" ;
+        prefix:hasAttribute        prefix:api-openweathermap-org-data-2-5-forecast-output47 , prefix:api-openweathermap-org-data-2-5-forecast-output46 ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-input1
+        a                  <http://dbpedia.org/ontology/Place> ;
+        prefix:api-openweathermap-org-data-2-5-forecast-output11
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        prefix:api-openweathermap-org-data-2-5-forecast-output12
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        prefix:isRequired  true ;
+        prefix:paramName   "q" ;
+        <http://purl.org/iot/vocab/m3-lite#Weather>
+                prefix:api-openweathermap-org-data-2-5-forecast-resource1 .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output17
+        rdfs:label                 "nextupdate" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
+
+prefix:api-openweathermap-org-data-2-5-forecast-output6
+        rdfs:label                 "timezone" ;
+        prefix:isRelatedToService  prefix:api-openweathermap-org-data-2-5-forecast .
