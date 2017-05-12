@@ -1688,10 +1688,10 @@ public class QueryPlanner {
                 + "{ ?sub <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
                 + "?obj <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
                 + "?sub ?prop ?obj } "
-                //+ "UNION"
-                //+ "{ ?sub <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE +"> <" + serviceString + "> . "
-                //+ "?prop <" + RDF.type +"> <" + OWL.DatatypeProperty + "> . "
-                //+ "?sub ?prop ?obj } "
+                + "UNION"
+                + "{ ?sub <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE +"> <" + serviceString + "> . "
+                + "?prop <" + RDF.type +"> <" + OWL.DatatypeProperty + "> . "
+                + "?sub ?prop ?obj } "
                 + "}";
 
         Query query = QueryFactory.create(queryStr);
