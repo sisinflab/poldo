@@ -1335,7 +1335,7 @@ public class QueryPlanner {
                         resourceObj = rdfCache.createResource(objectURIrdfCache);
                         property = rdfCache.createProperty(propertyURI);
                         if (isSamePropertyAs(propertyURI)) {
-                            resourceSubj.addLiteral(property, pairObj.getValue().toString());
+                            resourceSubj.addLiteral(property, pairObj.getValue().toString().replaceAll("\"", ""));
                         } else {
                             resourceSubj.addProperty(property, resourceObj);
                         }
