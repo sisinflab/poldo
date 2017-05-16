@@ -416,6 +416,10 @@ public class QueryPlanner {
 
                     response = http.sendGet(getUrlOfService(serviceString), params);
 
+                    if (response.startsWith("[")){
+                        response="{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : "+response+" }";
+                    }
+
                     ArrayList<String> outputURIList = getOutputsURIOfService(serviceString);
 
                     String languageOfService = getLanguageOfService(serviceString);
@@ -450,7 +454,7 @@ public class QueryPlanner {
                                 //every output can have more values
                                 for (int j = 0; j < result.size(); j++) {
                                     //add to rdfCache
-                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null);
+                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0, null);
                                     //add to costantsTable
                                     if (constantsTable.containsKey(classe)) {
                                         constantsTable.get(classe).add(result.get(j));
@@ -490,7 +494,7 @@ public class QueryPlanner {
                                 //every output can have more values
                                 for (int j = 0; j < result.size(); j++) {
                                     //add to rdfCache
-                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null);
+                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0, null);
                                     //add to costantsTable
                                     if (constantsTable.containsKey(classe)) {
                                         constantsTable.get(classe).add(result.get(j));
@@ -728,7 +732,7 @@ public class QueryPlanner {
                 if (isSamePropertyAs(propertyURI)) {
                     Resource resourceSubj = rdfCache.createResource(subjectURIrdfCache);
                     Property property = rdfCache.createProperty(propertyURI);
-                    resourceSubj.addLiteral(property, result.get(resultIndex));
+                    resourceSubj.addLiteral(property, result.get(resultIndex).replaceAll("\"", ""));
                 }
             } else {
                 if (!typeOfObject.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE)) {
@@ -737,7 +741,7 @@ public class QueryPlanner {
                         //maybe this is useless
                         Resource resourceSubj = rdfCache.createResource(subjectURIrdfCache);
                         Property property = rdfCache.createProperty(propertyURI);
-                        resourceSubj.addLiteral(property, result.get(resultIndex));
+                        resourceSubj.addLiteral(property, result.get(resultIndex).replaceAll("\"", ""));
                     } else {
                         //link two resources - no datatype
                         String objectURIrdfCache = getUriInRdfCache(result.get(resultIndex), typeOfObject);
@@ -971,7 +975,7 @@ public class QueryPlanner {
             for (int propertyIndex = 0; propertyIndex < propertyListResIsOb.size(); propertyIndex++) {
                 HashMap<Integer, ArrayList<String>> valuesMap = new HashMap<Integer, ArrayList<String>>();
 
-                String subjectURI = getObjectURIOfPropertyOfResource(addedResourceURIModel, propertyListResIsOb.get(propertyIndex)).get(0);
+                String subjectURI = getSubjectURIOfPropertyOfResource(addedResourceURIModel, propertyListResIsOb.get(propertyIndex)).get(0);
 
                 if (resourceIsInput(subjectURI)) {
 
@@ -1024,7 +1028,9 @@ public class QueryPlanner {
                             valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
                             valuesArrayResIsOb,        //key: index of property (in propertyListResIsOb) and value extracted from xml or json
                             inputIsSubject,            // key: uri of property and value of input
-                            inputIsObject            // key: uri of property and value of input
+                            inputIsObject,            // key: uri of property and value of input
+                            key,
+                            model
                     );
                 }
 
@@ -1046,7 +1052,7 @@ public class QueryPlanner {
 
                     if (isSamePropertyAs(property.getURI())) {
                         // DatatypeProperty case
-                        resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(property.getURI()).get(0)), objectValues.get(i));
+                        resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(property.getURI()).get(0)), objectValues.get(i).replaceAll("\"", ""));
                     } else {
                         // normal case
                         resourceSubj.addProperty(property, resourceObj);
@@ -1062,7 +1068,7 @@ public class QueryPlanner {
                         Resource resourceObjInput = rdfCache.createResource(objectURIrdfCacheInput);
                         Property propertyInput = rdfCache.createProperty(propertyInputKey);
                         if (isSamePropertyAs(propertyInputKey)) {
-                            resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(propertyInputKey).get(0)), inputIsObject.get(propertyInputKey));
+                            resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(propertyInputKey).get(0)), inputIsObject.get(propertyInputKey).replaceAll("\"", ""));
                         } else {
                             resourceSubj.addProperty(propertyInput, resourceObjInput);
                         }
@@ -1101,8 +1107,9 @@ public class QueryPlanner {
                             valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
                             valuesArrayResIsOb,        ///key: index of property (in propertyListResIsOb) and value extracted from xml or json
                             inputIsSubject,            // key: uri of property and value of input
-                            inputIsObject            // key: uri of property and value of input
-                    );
+                            inputIsObject,            // key: uri of property and value of input
+                            key,
+                            model);
                 }
 
                 List<String> subjectValues = valuesArrayResIsOb.get(indexLista).get(key);
@@ -1270,7 +1277,7 @@ public class QueryPlanner {
                         resourceObj = rdfCache.createResource(objectURIrdfCache);
                         property = rdfCache.createProperty(propertyURI);
                         if (isSamePropertyAs(propertyURI)) {
-                            resourceSubj.addLiteral(property, objectValues.get(indexObject));
+                            resourceSubj.addLiteral(property, objectValues.get(indexObject).replaceAll("\"", ""));
                         } else {
                             resourceSubj.addProperty(property, resourceObj);
                         }
@@ -1359,6 +1366,7 @@ public class QueryPlanner {
      * @param valuesArrayResIsOb   key: index of property (in propertyListResIsOb) and value extracted from xml or json
      * @param inputIsSubject       key: uri of property and value of input
      * @param inputIsObject        key: uri of property and value of input
+     * @param model
      */
     public void addResourceToRdfCache(String label, String classe, String mappingURI,
                                       ArrayList<String> propertyListResIsSub,
@@ -1366,8 +1374,9 @@ public class QueryPlanner {
                                       ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
                                       ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                                       HashMap<String, String> inputIsSubject,
-                                      HashMap<String, String> inputIsObject
-    ) {
+                                      HashMap<String, String> inputIsObject,
+                                      int key,
+                                      Model model) {
 
         if (label.startsWith("\"")) {
             label = label.substring(1, label.length() - 1);
@@ -1407,7 +1416,7 @@ public class QueryPlanner {
                     Object obj = cls.newInstance();
 
                     //custom parameter
-                    Class[] paramCustom = new Class[7];
+                    Class[] paramCustom = new Class[9];
                     paramCustom[0] = ArrayList.class;
                     paramCustom[1] = ArrayList.class;
                     paramCustom[2] = ArrayList.class;
@@ -1415,6 +1424,8 @@ public class QueryPlanner {
                     paramCustom[4] = ArrayList.class;
                     paramCustom[5] = HashMap.class;
                     paramCustom[6] = HashMap.class;
+                    paramCustom[7] = Integer.class;
+                    paramCustom[8] = Model.class;
 
 
                     Method method = cls.getDeclaredMethod("getResourceURI", paramCustom);
@@ -1423,7 +1434,7 @@ public class QueryPlanner {
                     arrayList.add(label);
                     arrayList.add(classe);
 
-                    resourceUriString = (String) method.invoke(obj, arrayList, propertyListResIsSub, propertyListResIsOb, valuesArrayResIsSub, valuesArrayResIsOb, inputIsSubject, inputIsObject);
+                    resourceUriString = (String) method.invoke(obj, arrayList, propertyListResIsSub, propertyListResIsOb, valuesArrayResIsSub, valuesArrayResIsOb, inputIsSubject, inputIsObject, key, model);
 
                 } catch (Exception e) {
                     // Auto-generated catch block
@@ -1669,7 +1680,16 @@ public class QueryPlanner {
             QuerySolution solution = result.nextSolution();
             Resource property = solution.getResource("prop");
             String propertyString = property.toString();
-            if (!propertyString.startsWith(Endpoint.DEFAULT_NAMESPACE) &
+            if (!propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_FIXED_VALUE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_STRUCTURE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISREQUIRED_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
                     !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
                     !propertyString.equalsIgnoreCase(RDF.type.toString()) &
                     !propertyString.equalsIgnoreCase(Endpoint.LI_PROPERTY)) {

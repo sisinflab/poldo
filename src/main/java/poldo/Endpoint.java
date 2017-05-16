@@ -79,6 +79,8 @@ public class Endpoint {
     public static final String LOV_PATH = "/lov.ttl";
     public static final String DBO_PATH = "/dbpedia_2016-04-range-domain.nt";
 
+    public static final String JSON_ARRAY_ROOT = "jsonArrayRoot";
+
 
     @javax.ws.rs.core.Context
     public ServletContext context;

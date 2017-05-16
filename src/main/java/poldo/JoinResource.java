@@ -24,6 +24,8 @@ public class JoinResource {
         factory  = new JsonFactory();
         count = 0;
         level = 0;
+
+        valueList = new HashMap<>();
     }
 
     public HashMap <Integer, ArrayList<String>> getValuesData(String json,ArrayList<String> path) throws IOException{

@@ -49,6 +49,10 @@ public class ParserJSON {
 
     public Model getOutput(String json, String prefix) throws IOException{
 
+
+        if (json.startsWith("[")){
+            json="{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : "+json+" }";
+        }
         r2rqPrefix = prefix;
 
         mapper = new ObjectMapper(factory);
