@@ -454,7 +454,7 @@ public class QueryPlanner {
                                 //every output can have more values
                                 for (int j = 0; j < result.size(); j++) {
                                     //add to rdfCache
-                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0, null);
+                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0);
                                     //add to costantsTable
                                     if (constantsTable.containsKey(classe)) {
                                         constantsTable.get(classe).add(result.get(j));
@@ -494,7 +494,7 @@ public class QueryPlanner {
                                 //every output can have more values
                                 for (int j = 0; j < result.size(); j++) {
                                     //add to rdfCache
-                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0, null);
+                                    addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0);
                                     //add to costantsTable
                                     if (constantsTable.containsKey(classe)) {
                                         constantsTable.get(classe).add(result.get(j));
@@ -1029,8 +1029,7 @@ public class QueryPlanner {
                             valuesArrayResIsOb,        //key: index of property (in propertyListResIsOb) and value extracted from xml or json
                             inputIsSubject,            // key: uri of property and value of input
                             inputIsObject,            // key: uri of property and value of input
-                            key,
-                            model
+                            key
                     );
                 }
 
@@ -1108,8 +1107,8 @@ public class QueryPlanner {
                             valuesArrayResIsOb,        ///key: index of property (in propertyListResIsOb) and value extracted from xml or json
                             inputIsSubject,            // key: uri of property and value of input
                             inputIsObject,            // key: uri of property and value of input
-                            key,
-                            model);
+                            key
+                    );
                 }
 
                 List<String> subjectValues = valuesArrayResIsOb.get(indexLista).get(key);
@@ -1366,7 +1365,6 @@ public class QueryPlanner {
      * @param valuesArrayResIsOb   key: index of property (in propertyListResIsOb) and value extracted from xml or json
      * @param inputIsSubject       key: uri of property and value of input
      * @param inputIsObject        key: uri of property and value of input
-     * @param model
      */
     public void addResourceToRdfCache(String label, String classe, String mappingURI,
                                       ArrayList<String> propertyListResIsSub,
@@ -1375,8 +1373,7 @@ public class QueryPlanner {
                                       ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                                       HashMap<String, String> inputIsSubject,
                                       HashMap<String, String> inputIsObject,
-                                      int key,
-                                      Model model) {
+                                      int key ) {
 
         if (label.startsWith("\"")) {
             label = label.substring(1, label.length() - 1);
