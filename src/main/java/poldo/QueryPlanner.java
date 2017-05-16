@@ -1887,25 +1887,28 @@ public class QueryPlanner {
 
     public String getUriInRdfCache(String label, String type) {
 
-        if (label.startsWith("\"")) {
-            label = label.substring(1, label.length() - 1);
+        String uri=null;
+
+        if (label != null) {
+            if (label.startsWith("\"")) {
+                label = label.substring(1, label.length() - 1);
+            }
+
+            String queryStr = "select ?subject where { "
+                    + "?subject <" + RDFS.label + "> \"" + label + "\" . "
+                    + "?subject <" + RDF.type + "> <" + type + "> }";
+
+            Query query = QueryFactory.create(queryStr);
+            QueryExecution qexec = QueryExecutionFactory.create(query, rdfCache);
+            ResultSet result = qexec.execSelect();
+
+            if (result.hasNext()) {
+                QuerySolution solution = result.nextSolution();
+                Resource subject = solution.getResource("subject");
+                uri = subject.toString();
+            }
         }
-
-        String queryStr = "select ?subject where { "
-                + "?subject <" + RDFS.label + "> \"" + label + "\" . "
-                + "?subject <" + RDF.type + "> <" + type + "> }";
-
-        Query query = QueryFactory.create(queryStr);
-        QueryExecution qexec = QueryExecutionFactory.create(query, rdfCache);
-        ResultSet result = qexec.execSelect();
-
-        if (result.hasNext()) {
-            QuerySolution solution = result.nextSolution();
-            Resource subject = solution.getResource("subject");
-            return subject.toString();
-        } else {
-            return null;
-        }
+        return uri;
     }
 
     public String getServiceOfInput(String inputURI) {
