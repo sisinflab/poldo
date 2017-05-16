@@ -1,6 +1,8 @@
 package poldo;
 
 
+import org.apache.jena.rdf.model.Model;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,7 +18,9 @@ public class TestURI implements FindURI {
                                  ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
                                  ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                                  HashMap<String, String> inputIsSubject,
-                                 HashMap<String, String> inputIsObject) {
+                                 HashMap<String, String> inputIsObject,
+                                 Integer key,
+                                 Model model) {
 
         String uri = "http://resource.com/asd#" + contatore;
 
@@ -38,48 +42,44 @@ public class TestURI implements FindURI {
             System.out.println(propertyListResIsOb.get(i));
         }
 
-        System.out.println("param3");
-        for (int indexLista=0; indexLista<valuesArrayResIsSub.size(); indexLista++){
-            System.out.println("HashMap" + indexLista);
-            Iterator<Integer> iteratorHashMap = valuesArrayResIsSub.get(indexLista).keySet().iterator();
-            while (iteratorHashMap.hasNext()){
+        /*System.out.println("param3");
+        //System.out.println("HashMap" + indexLista);
+        Iterator<Integer> iteratorHashMapSub = valuesArrayResIsSub.keySet().iterator();
+        while (iteratorHashMapSub.hasNext()){
 
-                int key = iteratorHashMap.next();
-                System.out.println("key: " + key);
-                for (int indexListaInterna = 0; indexListaInterna < valuesArrayResIsSub.get(indexLista).get(key).size(); indexListaInterna++){
-                    System.out.println("Str: " + valuesArrayResIsSub.get(indexLista).get(key).get(indexListaInterna));
-                }
+            int key3 = iteratorHashMapSub.next();
+            System.out.println("key: " + key3);
+            for (int indexListaInterna = 0; indexListaInterna < valuesArrayResIsSub.get(key3).size(); indexListaInterna++){
+                System.out.println("Str: " + valuesArrayResIsSub.get(key3).get(indexListaInterna));
             }
         }
 
         System.out.println("param4");
-        for (int indexLista=0; indexLista<valuesArrayResIsOb.size(); indexLista++){
-            System.out.println("HashMap" + indexLista);
-            Iterator<Integer> iteratorHashMap = valuesArrayResIsOb.get(indexLista).keySet().iterator();
-            while (iteratorHashMap.hasNext()){
+        //System.out.println("HashMap" + indexLista);
+        Iterator<Integer> iteratorHashMapOb = valuesArrayResIsOb.keySet().iterator();
+        while (iteratorHashMapOb.hasNext()){
 
-                int key = iteratorHashMap.next();
-                System.out.println("key: " + key);
-                for (int indexListaInterna = 0; indexListaInterna < valuesArrayResIsOb.get(indexLista).get(key).size(); indexListaInterna++){
-                    System.out.println("Str: " + valuesArrayResIsOb.get(indexLista).get(key).get(indexListaInterna));
-                }
+            int key4 = iteratorHashMapOb.next();
+            System.out.println("key: " + key4);
+            for (int indexListaInterna = 0; indexListaInterna < valuesArrayResIsOb.get(key4).size(); indexListaInterna++){
+                System.out.println("Str: " + valuesArrayResIsOb.get(key4).get(indexListaInterna));
             }
         }
 
         System.out.println("param5");
-        Iterator<String> iteratorHashMapSub = inputIsSubject.keySet().iterator();
+        Iterator<String> iteratorHashMapSubIn = inputIsSubject.keySet().iterator();
         while (iteratorHashMapSub.hasNext()){
-            String key = iteratorHashMapSub.next();
-            System.out.println("key: " + key + " value: " + inputIsSubject.get(key));
+            String key5 = iteratorHashMapSubIn.next();
+            System.out.println("key: " + key5 + " value: " + inputIsSubject.get(key5));
         }
 
         System.out.println("param6");
-        Iterator<String> iteratorHashMapOb = inputIsObject.keySet().iterator();
+        Iterator<String> iteratorHashMapObIn = inputIsObject.keySet().iterator();
         while (iteratorHashMapOb.hasNext()){
-            String key = iteratorHashMapOb.next();
-            System.out.println("key: " + key + " value: " + inputIsObject.get(key));
+            String key6 = iteratorHashMapObIn.next();
+            System.out.println("key: " + key6 + " value: " + inputIsObject.get(key6));
         }
-
+*/
         return uri;
     }
 

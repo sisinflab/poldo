@@ -2,6 +2,8 @@ package poldo;
 
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.jena.rdf.model.Model;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -22,10 +25,12 @@ public class DbpediaURI implements FindURI {
     public String getResourceURI (ArrayList<String> par,
                                   ArrayList<String> propertyListResIsSub,
                                   ArrayList<String> propertyListResIsOb,
-                                  ArrayList <HashMap <Integer, ArrayList<String>>> valuesArrayResIsSub,
-                                  ArrayList <HashMap <Integer, ArrayList<String>>> valuesArrayResIsOb,
+                                  ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
+                                  ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                                   HashMap<String,String> inputIsSubject,
-                                  HashMap<String,String> inputIsObject) {
+                                  HashMap<String,String> inputIsObject,
+                                  Integer key,
+                                  Model model) {
 
         String uriString = "";
 
@@ -56,11 +61,16 @@ public class DbpediaURI implements FindURI {
             NodeList nodeList = (NodeList) expr.evaluate(xmlDocument, XPathConstants.NODESET);
             uriString = nodeList.item(0).getFirstChild().getNodeValue();
 
-            System.out.println("URI DBPEDIA: " + uriString);
+            //System.out.println("URI DBPEDIA: " + uriString);
 
         } catch (Exception e) {
             e.printStackTrace();
-            uriString = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);	//TODO handle this case
+            try {
+                uriString = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + URLEncoder.encode(par.get(0), "UTF-8");
+            } catch (UnsupportedEncodingException e1) {
+                e1.printStackTrace();
+                uriString = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);
+            }
         }
 
 

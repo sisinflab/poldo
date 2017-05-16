@@ -1,6 +1,8 @@
 package poldo;
 
 
+import org.apache.jena.rdf.model.Model;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,9 +22,11 @@ public interface FindURI {
     String getResourceURI (ArrayList<String> par,
                            ArrayList<String> propertyListResIsSub,
                            ArrayList<String> propertyListResIsOb,
-                           ArrayList <HashMap <Integer, ArrayList<String>>> valuesArrayResIsSub,
-                           ArrayList <HashMap <Integer, ArrayList<String>>> valuesArrayResIsOb,
+                           ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
+                           ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                            HashMap<String,String> inputIsSubject,
-                           HashMap<String,String> inputIsObject);
+                           HashMap<String,String> inputIsObject,
+                           Integer key,
+                           Model model);
 
 }
