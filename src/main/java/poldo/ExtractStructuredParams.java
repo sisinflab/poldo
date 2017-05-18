@@ -19,14 +19,12 @@ public class ExtractStructuredParams {
     private JSONObject obj;
     private JSONArray input;
     private JSONArray output;
-    private JSONArray outputList;
 
     public ExtractStructuredParams() {
 
         obj = new JSONObject();
         input = new JSONArray();
         output = new JSONArray();
-        outputList = new JSONArray();
 
     }
 
@@ -43,7 +41,6 @@ public class ExtractStructuredParams {
 
         extractOutput(model);
 
-        obj.put("outputList", outputList);
         return obj.toString();
 
     }
@@ -142,7 +139,6 @@ public class ExtractStructuredParams {
 
 
             output.put(jsonObject);
-            outputList.put(jsonObject);
         }
 
 
@@ -189,7 +185,6 @@ public class ExtractStructuredParams {
             }
 
             childrenArray.put(jsonObject);
-            outputList.put(jsonObject);
 
         }
 
@@ -230,7 +225,6 @@ public class ExtractStructuredParams {
 
 
             childrenArray.put(jsonObject);
-            outputList.put(jsonObject);
 
         }
 
