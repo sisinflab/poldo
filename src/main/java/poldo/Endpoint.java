@@ -3,6 +3,9 @@ package poldo;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -22,10 +25,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.util.ResourceUtils;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.OWL;
@@ -247,14 +252,13 @@ public class Endpoint {
     @POST
     @Path("/getparam")
     @Produces (MediaType.APPLICATION_JSON)
-    public String modelGeneratorReturnParam(@Context HttpHeaders header,
+    public String getParamsOfModel(@Context HttpHeaders header,
                                             @Context HttpServletResponse response,
                                             @FormParam("model") String model) throws IOException, JSONException{
 
         //Add header to allow cross-domain requests
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        //call the main function (modelGenerator)
         //call the function for extracting parameters from the model - return a JSON object containing model, inputs and outputs
         ExtractParams extractParam = new ExtractParams();
         return extractParam.extraction(model);
@@ -436,6 +440,9 @@ public class Endpoint {
             }
         }
 
+        //changes URI of resources, from -outputN to -path/of/resource
+        model = editURI(model);
+
         //Write the model to Output stream
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         model.write(baos, "turtle");
@@ -452,6 +459,89 @@ public class Endpoint {
         response.setHeader("Access-Control-Allow-Origin", "*");
         System.out.println("get: "+param);
         return "ok get";
+    }
+
+    public Model editURI (Model model) {
+
+        //select inputs
+        String queryStrIn = "select distinct ?res ?paramName where "
+                + "{ " +
+                "?res <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME + "> ?paramName "
+                + "}";
+
+        Query queryIn = QueryFactory.create(queryStrIn);
+        QueryExecution qexecIn = QueryExecutionFactory.create(queryIn, model);
+        ResultSet resultIn = qexecIn.execSelect();
+
+        ArrayList<Resource> inputrResources = new ArrayList<>();
+        ArrayList<String> paramNames = new ArrayList<>();
+
+        while (resultIn.hasNext()) {
+            QuerySolution solution = resultIn.nextSolution();
+            Resource res = solution.getResource("res");
+            String paramName = solution.getLiteral("paramName").toString();
+            inputrResources.add(res);
+            paramNames.add(paramName);
+        }
+
+        for (int i = 0; i < inputrResources.size(); i++) {
+            String newUri = getNewInputResourceUri(inputrResources.get(i).toString(), paramNames.get(i));
+            ResourceUtils.renameResource(inputrResources.get(i), newUri);
+        }
+
+        ArrayList<Resource> outputResources = new ArrayList<>();
+
+        //select outputs
+        String queryStrOut = "select distinct ?res where "
+                + "{ " +
+                "?res <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service "
+                + "}";
+
+        Query queryOut = QueryFactory.create(queryStrOut);
+        QueryExecution qexecOut = QueryExecutionFactory.create(queryOut, model);
+        ResultSet resultOut = qexecOut.execSelect();
+
+        while (resultOut.hasNext()) {
+            QuerySolution solution = resultOut.nextSolution();
+            Resource res = solution.getResource("res");
+            outputResources.add(res);
+        }
+
+        for (int i = 0; i < outputResources.size(); i++) {
+            String newUri = getNewOutputResourceUri(outputResources.get(i).toString(), model);
+            ResourceUtils.renameResource(outputResources.get(i), newUri);
+        }
+
+        //TODO forzare il modello ad utilizzare il prefisso se possibile
+
+        return model;
+    }
+
+    public String getNewInputResourceUri(String uri, String name) {
+        String newUri = uri.substring(0, uri.lastIndexOf("-"));
+
+        if (newUri.endsWith("-")){
+            newUri = newUri.substring(0, newUri.length()-1);
+        }
+
+        newUri += "#" + name;
+
+        return newUri;
+    }
+
+    public String getNewOutputResourceUri(String uri, Model model) {
+        String newUri = uri.substring(0, uri.lastIndexOf("-"));
+
+        if (!newUri.endsWith("-")){
+            newUri += "-";
+        }
+        newUri = newUri + ExtractValueFromXML.getExpression(model, uri).substring(1);
+
+        if (newUri.endsWith("-")){
+            newUri += "root";
+        }
+
+        return newUri;
     }
 
 }
