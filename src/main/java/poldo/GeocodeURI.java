@@ -30,7 +30,6 @@ public class GeocodeURI implements FindURI {
                                   Integer key,
                                   Model model) {
 
-        //TODO usa lat e lon da prendere da valuesArrayResIsSub per chiamare geonames, poi chiama DbpediaURI.getResourceURI() e restituisci l'uri
 
         String latitude="";
         String longitude="";
