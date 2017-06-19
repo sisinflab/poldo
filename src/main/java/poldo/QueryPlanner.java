@@ -1686,6 +1686,7 @@ public class QueryPlanner {
                     !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
                     !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
                     !propertyString.equalsIgnoreCase(RDF.type.toString()) &
