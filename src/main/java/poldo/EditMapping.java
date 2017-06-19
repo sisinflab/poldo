@@ -78,6 +78,7 @@ public class EditMapping {
                     Boolean DatatypeProperty;
                     String classRDF;
                     String fixedValue;
+                    String findUri;
 
                     //inputURI is required, the others are optional (can be null)
                     if (editInputArray.getJSONObject(i).has("inputURI")){
@@ -109,7 +110,13 @@ public class EditMapping {
                             fixedValue=null;
                         }
 
-                        editInput(inputURI, isRequired, DatatypeProperty, classRDF, fixedValue);
+                        if (editInputArray.getJSONObject(i).has("findUri")){
+                            findUri=editInputArray.getJSONObject(i).getString("findUri");
+                        } else {
+                            findUri=null;
+                        }
+
+                        editInput(inputURI, isRequired, DatatypeProperty, classRDF, fixedValue, findUri);
                     }
 
                 }
@@ -130,6 +137,7 @@ public class EditMapping {
                     Boolean DatatypeProperty;
                     String classRDF;
                     String fixedValue;
+                    String findUri;
 
                     //serviceURI, label and numberURI are required, the others are optional
                     if (addInputArray.getJSONObject(i).has("serviceURI") &
@@ -163,7 +171,13 @@ public class EditMapping {
                             fixedValue = null;
                         }
 
-                        addInput(serviceURI, label, isRequired, DatatypeProperty, classRDF, fixedValue);
+                        if (addInputArray.getJSONObject(i).has("findUri")){
+                            findUri = addInputArray.getJSONObject(i).getString("findUri");
+                        } else {
+                            findUri = null;
+                        }
+
+                        addInput(serviceURI, label, isRequired, DatatypeProperty, classRDF, fixedValue, findUri);
 
                     }
 
@@ -184,6 +198,7 @@ public class EditMapping {
                     Boolean DatatypeProperty;
                     String content;
                     String classRDF;
+                    String findUri;
 
                     //System.out.println(editOutputArray.getJSONObject(i).toString());
 
@@ -216,7 +231,13 @@ public class EditMapping {
                             classRDF=null;
                         }
 
-                        editOutput (outputURI, isData, DatatypeProperty, content, classRDF);
+                        if(editOutputArray.getJSONObject(i).has("findUri")){
+                            findUri=editOutputArray.getJSONObject(i).getString("findUri");
+                        } else {
+                            findUri=null;
+                        }
+
+                        editOutput (outputURI, isData, DatatypeProperty, content, classRDF, findUri);
 
                     }
 
@@ -239,6 +260,7 @@ public class EditMapping {
                     String content;
                     String classRDF;
                     String parentURI;
+                    String findUri;
 
                     //serviceURI, label, numberURI, parentURI are required, the others are optional
                     if (addOutputArray.getJSONObject(i).has("serviceURI") &
@@ -274,7 +296,13 @@ public class EditMapping {
                             classRDF = null;
                         }
 
-                        addOutput(serviceURI,label,isData,DatatypeProperty,content,classRDF,parentURI);
+                        if (addOutputArray.getJSONObject(i).has("findUri")){
+                            findUri = addOutputArray.getJSONObject(i).getString("findUri");
+                        } else {
+                            findUri = null;
+                        }
+
+                        addOutput(serviceURI,label,isData,DatatypeProperty,content,classRDF,parentURI,findUri);
 
                     }
                 }
@@ -344,6 +372,14 @@ public class EditMapping {
                             }
                         }
                     }
+
+                    //findUri property
+                    if (addResourceArray.getJSONObject(i).has("findUri")){
+                        String findUri = addResourceArray.getJSONObject(i).getString("findUri");
+                        model.createResource(newResourceURI).addLiteral(
+                                model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI),
+                                findUri);
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -357,10 +393,14 @@ public class EditMapping {
      * @param isRequired Boolean telling if the input is required or optional
      * @param classRDF String representing the URI of the class associated to the resource
      */
-    public void editInput(String inputURI, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue){
+    public void editInput(String inputURI, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue, String findUri){
         if(isRequired!=null){
             model.createResource(inputURI).removeAll(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY));
             model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY), isRequired);
+        }
+        if(findUri!=null){
+            model.createResource(inputURI).removeAll(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI));
+            model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
         }
 		/*handle DatatypeProperty*/
         if (DatatypeProperty!=null){
@@ -404,13 +444,17 @@ public class EditMapping {
      * @param isRequired Boolean telling if the input is required or optional
      * @param classRDF String representing the URI of the class associated to the resource
      */
-    public void addInput(String serviceURI, String label, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue){
+    public void addInput(String serviceURI, String label, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue, String findUri){
         int numberURI = firstURIAvailable(serviceURI + Endpoint.INPUT_URI_STRING);
         Resource input = model.createResource(serviceURI + Endpoint.INPUT_URI_STRING + numberURI);
         model.createResource(serviceURI).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.INPUT_PROPERTY), input);
         input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME), label);
         if (isRequired!=null){
             input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY), isRequired);
+        }
+
+        if(findUri!=null){
+            input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
         }
 
 
@@ -451,10 +495,11 @@ public class EditMapping {
      * @param content String representing the content (String or Number)
      * @param classRDF String representing the URI of the class associated to the resource
      */
-    public void editOutput(String outputURI, Boolean isData, Boolean DatatypeProperty, String content, String classRDF){
+    public void editOutput(String outputURI, Boolean isData, Boolean DatatypeProperty, String content, String classRDF, String findUri){
         Resource output = model.createResource(outputURI);
         Property isDataProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY);
         Property contentProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY);
+        Property findUriProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI);
 
         if (isData!=null){
             output.removeAll(isDataProperty);
@@ -464,6 +509,11 @@ public class EditMapping {
         if (content!=null){
             output.removeAll(contentProperty);
             output.addLiteral(contentProperty, content);
+        }
+
+        if (findUri!=null){
+            output.removeAll(findUriProperty);
+            output.addLiteral(findUriProperty, findUri);
         }
 
 		/*handle DatatypeProperty*/
@@ -500,7 +550,7 @@ public class EditMapping {
      * @param classRDF String representing the URI of the class associated to the resource
      * @param parentURI String representing the URI of the parent of the new output
      */
-    public void addOutput(String serviceURI, String label, Boolean isData, Boolean DatatypeProperty,String content, String classRDF, String parentURI){
+    public void addOutput(String serviceURI, String label, Boolean isData, Boolean DatatypeProperty,String content, String classRDF, String parentURI, String findUri){
         Resource parent = model.createResource(parentURI);
         int numberURI = firstURIAvailable(serviceURI+ Endpoint.OUTPUT_URI_STRING);
         Resource output = model.createResource(serviceURI+ Endpoint.OUTPUT_URI_STRING +numberURI);
@@ -511,6 +561,9 @@ public class EditMapping {
         }
         if (content!=null){
             output.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY), content);
+        }
+        if (findUri!=null){
+            output.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
         }
 
 		/*handle DatatypeProperty*/
