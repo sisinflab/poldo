@@ -19,6 +19,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+/**
+ * Use label and class (rdf:type) to call dbpedia lookup service.
+ */
 public class DbpediaURI implements FindURI {
 
     @Override

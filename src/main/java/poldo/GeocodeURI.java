@@ -17,6 +17,10 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 import java.util.*;
 
+/**
+ * It Use latitude and longitude to call geocode API which return the name of the closest city.
+ * Then we use the city name to call DBPedia Lookup service.
+ */
 public class GeocodeURI implements FindURI {
 
     @Override
