@@ -78,7 +78,7 @@ public class Endpoint {
     public static final long TIMEOUT_DELAY = 5000;	//5000 = 5s
 
     //put files in the web directory
-    public static final String MAPPING_PATH = "/forecast-new.ttl";
+    public static final String MAPPING_PATH = "/default-mapping.ttl";
     public static final String LOV_PATH = "/lov.ttl";
     public static final String DBO_PATH = "/dbpedia_2016-04-range-domain.nt";
 
@@ -542,7 +542,9 @@ public class Endpoint {
         if (!newUri.endsWith("-")){
             newUri += "-";
         }
-        newUri = newUri + ExtractValueFromXML.getExpression(model, uri).substring(1).replaceAll("/","-");
+        newUri = newUri + ExtractValueFromXML.getExpression(model, uri).substring(1)
+                .replaceAll("/","-")
+                .replaceAll("@","");
 
         if (newUri.endsWith("-")){
             newUri += "root";
