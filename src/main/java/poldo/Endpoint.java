@@ -459,6 +459,15 @@ public class Endpoint {
         return "ok get";
     }
 
+    /**
+     * Method for replacing uri of inputs and outputs.
+     * input old uri: prefix:input-1
+     * input new uri: prefix:paramName
+     * output old uri: prefix:output-1
+     * output new uri: prefix:outputPath
+     * @param model
+     * @return
+     */
     public Model editURI (Model model) {
 
         //select inputs
@@ -510,7 +519,7 @@ public class Endpoint {
             ResourceUtils.renameResource(outputResources.get(i), newUri);
         }
 
-        //TODO forzare il modello ad utilizzare il prefisso se possibile
+        //TODO forzare il modello ad utilizzare il prefisso se possibile (prefix:resURI e non http://extendedPrefix.com/resURI)
 
         return model;
     }
