@@ -63,25 +63,16 @@ public class ExtractParams {
             ResultSet results = qexec.execSelect();
 
             while ( results.hasNext() ) {
-                /**
-                 * Ottengo i singoli risultatio della query SPARQL,
-                 * nello specifico ottengo label e URI
-                 */
                 QuerySolution soln = results.nextSolution();
                 Literal name = soln.getLiteral("name");
                 String input_URI = soln.get("input").toString();
 
-                /**
-                 * Object contenente la coppia di info label e URI estratta
-                 */
+
                 JSONObject elem_obj = new JSONObject();
                 elem_obj.put("label", name);
                 elem_obj.put("uri",input_URI);
                 elem_obj.put("path", "/inputs/");
 
-                /**
-                 * L'Object creato in precedenza viene inserito nell'Array
-                 */
                 input.put(elem_obj);
             }
 
@@ -134,9 +125,6 @@ public class ExtractParams {
                 String output_URI = soln.get("output").toString();
                 String service_URI = soln.get("service").toString();
 
-                /**
-                 * Object contenente la coppia di info label e URI estratta
-                 */
 
                 if(!list.contains(name)){
 
@@ -156,9 +144,6 @@ public class ExtractParams {
                         elem_obj.put("type",type);
                     }
 
-                    /**
-                     * L'Object creato in precedenza viene inserito nell'Array
-                     */
                     output.put(elem_obj);
 
                 }
@@ -217,9 +202,6 @@ public class ExtractParams {
                 if(!list.contains(name)){
 
                     list.add(name);
-                    /**
-                     * Object contenente la coppia di info label e URI estratta
-                     */
                     JSONObject elem_obj = new JSONObject();
                     elem_obj.put("label", name);
                     elem_obj.put("uri",element);
@@ -235,9 +217,6 @@ public class ExtractParams {
                         elem_obj.put("type",type);
                     }
 
-                    /**
-                     * L'Object creato in precedenza viene inserito nell'Array
-                     */
                     output.put(elem_obj);
                 }
 
@@ -282,9 +261,7 @@ public class ExtractParams {
                 if(!list.contains(name)){
 
                     list.add(name);
-                    /**
-                     * Object contenente la coppia di info label e URI estratta
-                     */
+
                     JSONObject elem_obj = new JSONObject();
                     elem_obj.put("label", name);
                     elem_obj.put("uri",element);
@@ -300,9 +277,6 @@ public class ExtractParams {
                         elem_obj.put("type",type);
                     }
 
-                    /**
-                     * L'Object creato in precedenza viene inserito nell'Array
-                     */
                     output.put(elem_obj);
                 }
 
