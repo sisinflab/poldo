@@ -531,7 +531,7 @@ public class Endpoint {
             newUri = newUri.substring(0, newUri.length()-1);
         }
 
-        newUri += "#" + name;
+        newUri += "-" + name;
 
         return newUri;
     }
@@ -542,7 +542,7 @@ public class Endpoint {
         if (!newUri.endsWith("-")){
             newUri += "-";
         }
-        newUri = newUri + ExtractValueFromXML.getExpression(model, uri).substring(1);
+        newUri = newUri + ExtractValueFromXML.getExpression(model, uri).substring(1).replaceAll("/","-");
 
         if (newUri.endsWith("-")){
             newUri += "root";
