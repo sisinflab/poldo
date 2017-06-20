@@ -49,6 +49,7 @@ public class PropertiesFinder {
         jsonObject.put("model", baos.toString());
 
 
+        //read linked open vocabulary dump file
         File fileModelLov = new File(context.getRealPath(Endpoint.LOV_PATH));
 
         try {
@@ -63,6 +64,7 @@ public class PropertiesFinder {
         }
 
 
+        //read dbpedia ontology dump file
         File fileModelDbo = new File(context.getRealPath(Endpoint.DBO_PATH));
 
         try {
@@ -77,11 +79,12 @@ public class PropertiesFinder {
         }
 
 
-
+        //write hashMapUriClass
         getUriAndClass();
 
 
         if (hashMapUriClass.size() > 1) {
+            //iterator for subjects
             Iterator<String> iteratorUriClassSubject = hashMapUriClass.keySet().iterator();
             while (iteratorUriClassSubject.hasNext()) {
                 String subjectUri = iteratorUriClassSubject.next();
@@ -91,6 +94,7 @@ public class PropertiesFinder {
                     subjectPath = ExtractValueFromXML.getExpression(model, subjectUri);
                     subjectLabel = ExtractValueFromXML.getLabelOfResource(subjectUri, model);
                 }
+                //iterator for objects
                 Iterator<String> iteratorUriClassObject = hashMapUriClass.keySet().iterator();
                 while (iteratorUriClassObject.hasNext()) {
                     String objectUri = iteratorUriClassObject.next();
@@ -100,6 +104,7 @@ public class PropertiesFinder {
                         objectPath = ExtractValueFromXML.getExpression(model, objectUri);
                         objectLabel = ExtractValueFromXML.getLabelOfResource(objectUri, model);
                     }
+                    //if subject!=object, search for possible properties to link the resources
                     if (!subjectUri.equalsIgnoreCase(objectUri)) {
                         ArrayList<String> propertiesArray = new ArrayList<>();
                         for (int indexClassSubject = 0; indexClassSubject < hashMapUriClass.get(subjectUri).size(); indexClassSubject++) {
@@ -110,6 +115,7 @@ public class PropertiesFinder {
                             }
                         }
 
+                        //put resources into a json to return to the client
                         if (propertiesArray.size()>0) {
                             JSONObject suggestedPropertiesObject = new JSONObject();
 
@@ -136,6 +142,7 @@ public class PropertiesFinder {
         return jsonObject.toString();
     }
 
+    //method to obtain all the classes (rdf:type) in the model
     public void getUriAndClass() {
         String queryStr = "select ?uri ?class where { "
                 + "?uri <" + RDF.type + "> ?class }";
@@ -168,7 +175,10 @@ public class PropertiesFinder {
     public ArrayList<String> getProperties(String subjectClass, String objectClass) {
         ArrayList<String> propertiesArray = new ArrayList<>();
 
+        //search for properties in DBpedia Ontology and write into propertiesArray
         propertiesArray.addAll(getPropertiesFromModel(subjectClass, objectClass, dboModel));
+
+        //search for properties in LOV and add to propertiesArray
         for (String x: getPropertiesFromModel(subjectClass, objectClass, lovModel)){
             if (!propertiesArray.contains(x)){
                 propertiesArray.add(x);
@@ -270,6 +280,7 @@ public class PropertiesFinder {
         return propertiesArray;
     }
 
+    //use rdfs:domain and rdfs:range to obtain some possible properties for linking subject and object
     public ArrayList<String> getPropertiesFromModel(String subjectClass, String objectClass, Model model) {
         ArrayList<String> propertiesArray = new ArrayList<>();
 
