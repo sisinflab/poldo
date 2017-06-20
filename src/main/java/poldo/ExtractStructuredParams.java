@@ -70,26 +70,17 @@ public class ExtractStructuredParams {
             ResultSet results = qexec.execSelect();
 
             while (results.hasNext()) {
-                /**
-                 * Ottengo i singoli risultatio della query SPARQL,
-                 * nello specifico ottengo label e URI
-                 */
+
                 QuerySolution soln = results.nextSolution();
                 Literal name = soln.getLiteral("name");
                 String input_URI = soln.get("input").toString();
 
-                /**
-                 * Object contenente la coppia di info label e URI estratta
-                 */
                 JSONObject elem_obj = new JSONObject();
                 elem_obj.put("label", name);
                 elem_obj.put("uri", input_URI);
                 elem_obj.put("path", "/inputs/");
 
 
-                /**
-                 * L'Object creato in precedenza viene inserito nell'Array
-                 */
                 input.put(elem_obj);
             }
 
@@ -236,8 +227,5 @@ public class ExtractStructuredParams {
 
         return childrenArray;
     }
-
-
-
 
 }
