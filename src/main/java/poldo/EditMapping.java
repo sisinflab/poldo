@@ -80,7 +80,7 @@ public class EditMapping {
                     String fixedValue;
                     String findUri;
 
-                    //inputURI is required, the others are optional (can be null)
+                    //inputURI is required, the others are optional (they can be null)
                     if (editInputArray.getJSONObject(i).has("inputURI")){
 
                         inputURI=editInputArray.getJSONObject(i).getString("inputURI");
@@ -335,7 +335,7 @@ public class EditMapping {
                 JSONArray addResourceArray = jsonObject.getJSONArray("addResource");
                 for (int i=0; i < addResourceArray.length(); i++) {
 
-                    //cerco l'uri del servizio - si potrebbe anche evitare mettendolo come campo nel json
+                    //search for the uri of service - could be removed if passed as a json field
                     //String serviceURI = addResourceArray.getJSONObject(i).getString("serviceURI");
                     String serviceURI = getService();
 
