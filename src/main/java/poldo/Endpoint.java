@@ -339,7 +339,7 @@ public class Endpoint {
         user can pass a namespace to use for creating resources in mapping file,
         in this case we add a NS prefix to the model, otherwise we will use PoLDo namespace.
          */
-        if(!namespace.equals("undefined")){
+        if(!namespace.equals("undefined") && !namespace.equals("")){
             //namespace must be a valid URI
             String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
             if (!namespace.matches(regex)){
