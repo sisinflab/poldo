@@ -37,6 +37,8 @@ public class ExtractStructuredParams {
         Model model = ModelFactory.createDefaultModel();
         model.read(new ByteArrayInputStream(modelStringTTL.getBytes()), null, "TTL");
 
+        System.out.println(modelStringTTL);
+
         obj.put("model", modelStringTTL);
 
         extractInput(model);
@@ -59,8 +61,8 @@ public class ExtractStructuredParams {
         String queryString =
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  " +
                         "SELECT ?name ?input WHERE { " +
-                        "    ?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?input . " +
-                        "    ?input  <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME + "> ?name  " +
+                        "    ?service <" + Endpoint.INPUT_PROPERTY + "> ?input . " +
+                        "    ?input  <" + Endpoint.PARAM_NAME + "> ?name  " +
                         "}";
 
         Query query = QueryFactory.create(queryString);
@@ -98,11 +100,11 @@ public class ExtractStructuredParams {
         //select outputs
         String queryString = "select ?output ?label ?hasValue ?contentType ?childURI "
                 +"where { " +
-                "?service <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY+"> ?output . " +
+                "?service <"+Endpoint.OUTPUT_PROPERTY+"> ?output . " +
                 "?output <" + RDFS.label + "> ?label " +
                 "OPTIONAL { " +
-                "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
-                "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
+                "?output <" + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
+                "?output <" + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
                 " } " +
                 " } ";
 
@@ -149,11 +151,11 @@ public class ExtractStructuredParams {
         //select attributes
         String queryStringAttribute = "select ?attributeURI ?label ?hasValue ?contentType "
                 + "where { " +
-                "<" + parentURI+"> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY + "> ?attributeURI . " +
+                "<" + parentURI+"> <" + Endpoint.ATTRIBUTE_PROPERTY + "> ?attributeURI . " +
                 "?attributeURI <" + RDFS.label + "> ?label " +
                 "OPTIONAL { " +
-                "?attributeURI <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
-                "?attributeURI <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
+                "?attributeURI <" + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
+                "?attributeURI <" + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
                 " } " +
                 " } ";
 
@@ -190,8 +192,8 @@ public class ExtractStructuredParams {
                 "<" + parentURI+"> <" + Endpoint.LI_PROPERTY + "> ?childURI . " +
                 "?childURI <" + RDFS.label + "> ?label " +
                 "OPTIONAL { " +
-                "?childURI <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
-                "?childURI <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
+                "?childURI <" + Endpoint.ISDATA_PROPERTY + "> ?hasValue  ."+
+                "?childURI <" + Endpoint.CONTENT_PROPERTY + "> ?contentType " +
                 " } " +
                 " } ";
 

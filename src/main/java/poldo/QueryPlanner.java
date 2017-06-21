@@ -184,7 +184,7 @@ public class QueryPlanner {
             //add only if it is not datatypeProperty
             if (!isSamePropertyAs(keyClasse)) {
                 for (int index = 0; index < valueList.size(); index++) {
-                    Resource resource = rdfCache.createResource(Endpoint.DEFAULT_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex);
+                    Resource resource = rdfCache.createResource(Endpoint.CUSTOM_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex);
                     resourceIndex++;
                     Resource keyClasseResource = rdfCache.createResource(keyClasse);
                     resource.addProperty(RDF.type, keyClasseResource);
@@ -735,7 +735,7 @@ public class QueryPlanner {
                     resourceSubj.addLiteral(property, result.get(resultIndex).replaceAll("\"", ""));
                 }
             } else {
-                if (!typeOfObject.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE)) {
+                if (!typeOfObject.equalsIgnoreCase(Endpoint.ADDED_RESOURCE)) {
                     // datatype
                     if (isSamePropertyAs(propertyURI)) {
                         //maybe this is useless
@@ -1022,7 +1022,7 @@ public class QueryPlanner {
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
 
                 if (key != -1) {
-                    addResourceToRdfCache(addedResourceLabel, Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE, addedResourceURIModel,
+                    addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
                             propertyListResIsSub,    // List of properties with customResource as subject
                             propertyListResIsOb,    // List of properties with customResource as object
                             valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
@@ -1035,7 +1035,7 @@ public class QueryPlanner {
 
                 List<String> objectValues = valuesArrayResIsSub.get(indexLista).get(key);
 
-                String subjectURIrdfCache = getUriInRdfCache(addedResourceLabel, Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE);
+                String subjectURIrdfCache = getUriInRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE);
 
                 for (int i = 0; i < objectValues.size(); i++) {
 
@@ -1100,7 +1100,7 @@ public class QueryPlanner {
 
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
                 if (key != -1) {
-                    addResourceToRdfCache(addedResourceLabel, Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE, addedResourceURIModel,
+                    addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
                             propertyListResIsSub,    // List of properties with customResource as subject
                             propertyListResIsOb,    // List of properties with customResource as object
                             valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
@@ -1113,7 +1113,7 @@ public class QueryPlanner {
 
                 List<String> subjectValues = valuesArrayResIsOb.get(indexLista).get(key);
 
-                String objectURIrdfCache = getUriInRdfCache(addedResourceLabel, Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE);
+                String objectURIrdfCache = getUriInRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE);
 
                 for (int i = 0; i < subjectValues.size(); i++) {
 
@@ -1393,7 +1393,7 @@ public class QueryPlanner {
 
             //check if there is findUri property
             String queryStrMapping = "select ?classFindURI where { "
-                    + "<" + mappingURI + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI + "> ?classFindURI "
+                    + "<" + mappingURI + "> <" + Endpoint.FIND_URI + "> ?classFindURI "
                     + " }";
 
 
@@ -1440,7 +1440,7 @@ public class QueryPlanner {
 
             } else {
                 //if there isn't findURI property
-                resourceUriString = Endpoint.DEFAULT_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex;
+                resourceUriString = Endpoint.CUSTOM_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex;
                 resourceIndex++;
             }
 
@@ -1459,7 +1459,7 @@ public class QueryPlanner {
     public void writeServicesAndInputs() {
 
         String queryStr = "select ?service ?input where { "
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?input . }";
+                + "?service <" + Endpoint.INPUT_PROPERTY + "> ?input . }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1488,7 +1488,7 @@ public class QueryPlanner {
     public void writeServicesAndInputClass() {
 
         String queryStr = "select ?service ?class ?input where { "
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?input ."
+                + "?service <" + Endpoint.INPUT_PROPERTY + "> ?input ."
                 + "?input <" + RDF.type + "> ?class }";
 
         Query query = QueryFactory.create(queryStr);
@@ -1541,7 +1541,7 @@ public class QueryPlanner {
     public String getFatherURI(String resource) {
 
         String queryStr = "select ?subject where { "
-                + "?subject <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY + "> <" + resource + "> }";
+                + "?subject <" + Endpoint.ATTRIBUTE_PROPERTY + "> <" + resource + "> }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1573,7 +1573,7 @@ public class QueryPlanner {
     public boolean resourceIsInput(String resource) {
 
         String queryStr = "select ?service where { "
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> <" + resource + "> }";
+                + "?service <" + Endpoint.INPUT_PROPERTY + "> <" + resource + "> }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1591,7 +1591,7 @@ public class QueryPlanner {
 
         String queryStr = "select ?resource where { "
                 + "?resource <" + RDF.type + "> <" + type + "> ."
-                + "?resource <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service }";
+                + "?resource <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1610,8 +1610,8 @@ public class QueryPlanner {
         ArrayList<String> outputURIList = new ArrayList<String>();
 
         String queryStr = "select ?output where {"
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceURI + "> . "
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY + "> true }";
+                + "?output <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceURI + "> . "
+                + "?output <" + Endpoint.ISDATA_PROPERTY + "> true }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1642,15 +1642,15 @@ public class QueryPlanner {
             Resource property = solution.getResource("prop");
             String propertyString = property.toString();
 
-            if (!propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_FIXED_VALUE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_STRUCTURE_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISREQUIRED_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY) &
+            if (!propertyString.equalsIgnoreCase(Endpoint.PARAM_NAME) &
+                    !propertyString.equalsIgnoreCase(Endpoint.FIND_URI) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_FIXED_VALUE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.IS_RELATED_TO_SERVICE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_STRUCTURE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISREQUIRED_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISDATA_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.CONTENT_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ATTRIBUTE_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
                     !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
                     !propertyString.equalsIgnoreCase(RDF.type.toString()) &
@@ -1677,16 +1677,16 @@ public class QueryPlanner {
             QuerySolution solution = result.nextSolution();
             Resource property = solution.getResource("prop");
             String propertyString = property.toString();
-            if (!propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_FIXED_VALUE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_STRUCTURE_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISREQUIRED_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY) &
+            if (!propertyString.equalsIgnoreCase(Endpoint.PARAM_NAME) &
+                    !propertyString.equalsIgnoreCase(Endpoint.FIND_URI) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_FIXED_VALUE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.IS_RELATED_TO_SERVICE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_STRUCTURE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISREQUIRED_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISDATA_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.CONTENT_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ATTRIBUTE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.INPUT_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
                     !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
                     !propertyString.equalsIgnoreCase(RDF.type.toString()) &
@@ -1703,11 +1703,11 @@ public class QueryPlanner {
         ArrayList<TriplePattern> tripleList = new ArrayList<TriplePattern>();
 
         String queryStr = "select ?sub ?prop ?obj where { "
-                + "{ ?sub <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
-                + "?obj <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
+                + "{ ?sub <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
+                + "?obj <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
                 + "?sub ?prop ?obj } "
                 + "UNION"
-                + "{ ?sub <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE +"> <" + serviceString + "> . "
+                + "{ ?sub <" + Endpoint.IS_RELATED_TO_SERVICE +"> <" + serviceString + "> . "
                 + "?prop <" + RDF.type +"> <" + OWL.DatatypeProperty + "> . "
                 + "?sub ?prop ?obj } "
                 + "}";
@@ -1720,14 +1720,14 @@ public class QueryPlanner {
             QuerySolution solution = result.nextSolution();
             Resource property = solution.getResource("prop");
             String propertyString = property.toString();
-            if (!propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_FIXED_VALUE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_STRUCTURE_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISREQUIRED_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY) &
-                    !propertyString.equalsIgnoreCase(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY) &
+            if (!propertyString.equalsIgnoreCase(Endpoint.PARAM_NAME) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_FIXED_VALUE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.IS_RELATED_TO_SERVICE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_STRUCTURE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISREQUIRED_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISDATA_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.CONTENT_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ATTRIBUTE_PROPERTY) &
                     !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
                     !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
                     !propertyString.equalsIgnoreCase(RDF.type.toString()) &
@@ -1829,13 +1829,13 @@ public class QueryPlanner {
 
         String queryStr = "select distinct ?output where { "
                 + "{ <" + addedResource + "> ?prop ?output . "
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
+                + "?output <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
                 + " UNION "
                 + "{ ?output ?prop <" + addedResource + "> . "
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
+                + "?output <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
                 + " UNION "
                 + "{ <" + addedResource + "> ?output ?type . "  //caso datatypeProperty
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
+                + "?output <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service } "
                 + "}";
 
         Query query = QueryFactory.create(queryStr);
@@ -1856,20 +1856,20 @@ public class QueryPlanner {
 
         String queryStr = "select distinct ?res where { "
                 + "{ ?res ?prop ?obj . "
-                + "?obj <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + service + "> . "
-                + "?res <" + RDF.type + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE + "> } "
+                + "?obj <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + service + "> . "
+                + "?res <" + RDF.type + "> <" + Endpoint.ADDED_RESOURCE + "> } "
                 + " UNION "
                 + "{ ?subj ?prop ?res . "
-                + "?subj <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> <" + service + "> ."
-                + "?res <" + RDF.type + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE + "> } "
+                + "?subj <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + service + "> ."
+                + "?res <" + RDF.type + "> <" + Endpoint.ADDED_RESOURCE + "> } "
                 + " UNION "
                 + "{ ?res ?prop ?obj . "
-                + "<" + service + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?obj . "
-                + "?res <" + RDF.type + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE + "> } "
+                + "<" + service + "> <" + Endpoint.INPUT_PROPERTY + "> ?obj . "
+                + "?res <" + RDF.type + "> <" + Endpoint.ADDED_RESOURCE + "> } "
                 + " UNION "
                 + "{ ?subj ?prop ?res . "
-                + "<" + service + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?subj . "
-                + "?res <" + RDF.type + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE + "> } "
+                + "<" + service + "> <" + Endpoint.INPUT_PROPERTY + "> ?subj . "
+                + "?res <" + RDF.type + "> <" + Endpoint.ADDED_RESOURCE + "> } "
                 + "}";
 
         Query query = QueryFactory.create(queryStr);
@@ -1915,7 +1915,7 @@ public class QueryPlanner {
     public String getServiceOfInput(String inputURI) {
 
         String queryStr = "select ?service where { "
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> <" + inputURI + "> }";
+                + "?service <" + Endpoint.INPUT_PROPERTY + "> <" + inputURI + "> }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1932,7 +1932,7 @@ public class QueryPlanner {
 
     public String getServiceOfOutput(String outputURI) {
         String queryStr = "select ?service where { "
-                + "<" + outputURI + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service }";
+                + "<" + outputURI + "> <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1949,7 +1949,7 @@ public class QueryPlanner {
 
     public String getLanguageOfService(String service) {
         String queryStr = "select ?language where { "
-                + "<" + service + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.LANGUAGE_PROPERTY + "> ?language }";
+                + "<" + service + "> <" + Endpoint.LANGUAGE_PROPERTY + "> ?language }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -1966,7 +1966,7 @@ public class QueryPlanner {
 
     public String getUrlOfService(String service) {
         String queryStr = "select ?url where { "
-                + "<" + service + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.URL_PROPERTY + "> ?url }";
+                + "<" + service + "> <" + Endpoint.URL_PROPERTY + "> ?url }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -2000,7 +2000,7 @@ public class QueryPlanner {
 
     public String getParamNameOfResource(String resourceURI) {
         String queryStr = "select ?label where { "
-                + "<" + resourceURI + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME + "> ?label }";
+                + "<" + resourceURI + "> <" + Endpoint.PARAM_NAME + "> ?label }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -2035,7 +2035,7 @@ public class QueryPlanner {
 
     public void addFixedValueToConstantsTable() {
         String queryStr = "select ?value ?type where { "
-                + "?resource <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_FIXED_VALUE + "> ?value . "
+                + "?resource <" + Endpoint.HAS_FIXED_VALUE + "> ?value . "
                 + "?resource <" + RDF.type + "> ?type "
                 + "}";
 
@@ -2063,7 +2063,7 @@ public class QueryPlanner {
     public void writeServiceAndInputsURI(String serviceURIString) {
 
         String queryStr = "select ?input where { "
-                + "< " + serviceURIString + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?input }";
+                + "< " + serviceURIString + "> <" + Endpoint.INPUT_PROPERTY + "> ?input }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
@@ -2090,8 +2090,8 @@ public class QueryPlanner {
 
         String queryStr = "select ?output ?service ?input where { "
                 + "?output <" + RDF.type + "> <" + type + "> ."
-                + "?output <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service ."
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.INPUT_PROPERTY + "> ?input }";
+                + "?output <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service ."
+                + "?service <" + Endpoint.INPUT_PROPERTY + "> ?input }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);

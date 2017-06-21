@@ -94,7 +94,7 @@ public class GeocodeURI implements FindURI {
 
         } catch (Exception e) {
             e.printStackTrace();
-            //cityLabel = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);	//TODO handle this case
+            //cityLabel = Endpoint.CUSTOM_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);	//TODO handle this case
         }
 
         ArrayList<String> param = new ArrayList<>();

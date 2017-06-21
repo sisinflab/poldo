@@ -69,10 +69,10 @@ public class DbpediaURI implements FindURI {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                uriString = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + URLEncoder.encode(par.get(0), "UTF-8");
+                uriString = Endpoint.CUSTOM_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + URLEncoder.encode(par.get(0), "UTF-8");
             } catch (UnsupportedEncodingException e1) {
                 e1.printStackTrace();
-                uriString = Endpoint.DEFAULT_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);
+                uriString = Endpoint.CUSTOM_NAMESPACE + par.get(1).substring(par.get(1).lastIndexOf("/")+1) + "#" + par.get(0);
             }
         }
 

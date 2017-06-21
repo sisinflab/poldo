@@ -52,8 +52,8 @@ public class ExtractParams {
         String queryString =
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  " +
                         "SELECT ?name ?input WHERE { " +
-                        "    ?service <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.INPUT_PROPERTY+"> ?input . " +
-                        "    ?input  <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.PARAM_NAME +"> ?name  " +
+                        "    ?service <"+Endpoint.INPUT_PROPERTY+"> ?input . " +
+                        "    ?input  <"+Endpoint.PARAM_NAME +"> ?name  " +
                         "}";
 
         Query query = QueryFactory.create(queryString);
@@ -95,17 +95,17 @@ public class ExtractParams {
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  " +
                         "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  " +
                         "SELECT ?name ?service ?output ?elem_struct ?flag ?type ?attr_elem WHERE{ " +
-                        "    ?service <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY+"> ?output . " +
+                        "    ?service <"+Endpoint.OUTPUT_PROPERTY+"> ?output . " +
                         "    ?output rdfs:label ?name  ." +
                         "    OPTIONAL{"+
                         "       ?output rdf:li ?elem_struct"+
                         "    }" +
                         "    OPTIONAL{"+
-                        "       ?output <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.ATTRIBUTE_PROPERTY+"> ?attr_elem"+
+                        "       ?output <"+Endpoint.ATTRIBUTE_PROPERTY+"> ?attr_elem"+
                         "    }" +
                         "    OPTIONAL{"+
-                        "       ?output <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY+"> ?flag  ."+
-                        "       ?output <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY+"> ?type"+
+                        "       ?output <"+Endpoint.ISDATA_PROPERTY+"> ?flag  ."+
+                        "       ?output <"+Endpoint.CONTENT_PROPERTY+"> ?type"+
                         "    }" +
                         "}";
 
@@ -178,11 +178,11 @@ public class ExtractParams {
                         "SELECT ?name ?elem_struct ?flag ?type ?attr_elem WHERE{ " +
                         "<" + element + ">" + " rdfs:label ?name  ." +
                         "    OPTIONAL{"+
-                        "<" + element + ">" + " <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.ATTRIBUTE_PROPERTY+"> ?attr_elem"+
+                        "<" + element + ">" + " <"+Endpoint.ATTRIBUTE_PROPERTY+"> ?attr_elem"+
                         "    }" +
                         "    OPTIONAL{"+
-                        "<" + element + ">" + " <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY+"> ?flag ."+
-                        "<" + element + ">" + " <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY+"> ?type "+
+                        "<" + element + ">" + " <"+Endpoint.ISDATA_PROPERTY+"> ?flag ."+
+                        "<" + element + ">" + " <"+Endpoint.CONTENT_PROPERTY+"> ?type "+
                         "    }" +
                         "}";
 
@@ -240,8 +240,8 @@ public class ExtractParams {
                         "<" + element + ">" + " rdf:li ?elem_struct"+
                         "    }" +
                         "    OPTIONAL{"+
-                        "<" + element + ">" + " <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY+"> ?flag ."+
-                        "<" + element + ">" + " <"+Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY+"> ?type "+
+                        "<" + element + ">" + " <"+Endpoint.ISDATA_PROPERTY+"> ?flag ."+
+                        "<" + element + ">" + " <"+Endpoint.CONTENT_PROPERTY+"> ?type "+
                         "    }" +
                         "}";
 

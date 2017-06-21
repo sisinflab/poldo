@@ -44,25 +44,26 @@ import org.xml.sax.SAXException;
 public class Endpoint {
 
     public static final String PREFIX = "poldo";
+    public static final String CUSTOM_NS_PREFIX = "customns";
 
-    public static String DEFAULT_NAMESPACE = "http://sisinflab.poliba.it/semanticweb/lod/poldo/";
+    public static String CUSTOM_NAMESPACE = "http://sisinflab.poliba.it/semanticweb/lod/poldo/";
 
-    public static final String DEFAULT_NAMESPACE_DEFAULT = "http://sisinflab.poliba.it/semanticweb/lod/poldo/";
-    public static final String URL_PROPERTY = "hasUrl";
-    public static final String METHOD_PROPERTY = "hasMethod";
-    public static final String INPUT_PROPERTY = "hasInput";
-    public static final String LANGUAGE_PROPERTY = "hasLanguage";
-    public static final String OUTPUT_PROPERTY = "hasOutput";
-    public static final String ATTRIBUTE_PROPERTY = "hasAttribute";
-    public static final String CONTENT_PROPERTY = "content";
-    public static final String ISDATA_PROPERTY = "isData";
-    public static final String ISREQUIRED_PROPERTY = "isRequired";
-    public static final String HAS_STRUCTURE_PROPERTY = "hasStructure";
-    public static final String IS_RELATED_TO_SERVICE = "isRelatedToService";
-    public static final String HAS_FIXED_VALUE = "hasFixedValue";
-    public static final String ADDED_RESOURCE = "customResource";
-    public static final String PARAM_NAME = "paramName";
-    public static final String FIND_URI = "findURI";
+    public static final String DEFAULT_NAMESPACE = "http://sisinflab.poliba.it/semanticweb/lod/poldo/";
+    public static final String URL_PROPERTY = DEFAULT_NAMESPACE + "hasUrl";
+    public static final String METHOD_PROPERTY = DEFAULT_NAMESPACE + "hasMethod";
+    public static final String INPUT_PROPERTY = DEFAULT_NAMESPACE + "hasInput";
+    public static final String LANGUAGE_PROPERTY = DEFAULT_NAMESPACE + "hasLanguage";
+    public static final String OUTPUT_PROPERTY = DEFAULT_NAMESPACE + "hasOutput";
+    public static final String ATTRIBUTE_PROPERTY = DEFAULT_NAMESPACE + "hasAttribute";
+    public static final String CONTENT_PROPERTY = DEFAULT_NAMESPACE + "content";
+    public static final String ISDATA_PROPERTY = DEFAULT_NAMESPACE + "isData";
+    public static final String ISREQUIRED_PROPERTY = DEFAULT_NAMESPACE + "isRequired";
+    public static final String HAS_STRUCTURE_PROPERTY = DEFAULT_NAMESPACE + "hasStructure";
+    public static final String IS_RELATED_TO_SERVICE = DEFAULT_NAMESPACE + "isRelatedToService";
+    public static final String HAS_FIXED_VALUE = DEFAULT_NAMESPACE + "hasFixedValue";
+    public static final String ADDED_RESOURCE = DEFAULT_NAMESPACE + "customResource";
+    public static final String PARAM_NAME = DEFAULT_NAMESPACE + "paramName";
+    public static final String FIND_URI = DEFAULT_NAMESPACE + "findURI";
 
     public static final String STRING_CONTENT = "String";
     public static final String NUMBER_CONTENT = "Number";
@@ -72,7 +73,7 @@ public class Endpoint {
     public static final String INPUT_URI_STRING = "-input";
     public static final String RESOURCE_URI_STRING = "resource";
 
-    public static final String LI_PROPERTY = RDF.uri+"li";
+    public static final String LI_PROPERTY = RDF.uri + "li";
     public static final String SAME_PROPERTY_AS = OWL.NS + "samePropertyAs";
 
     public static final long TIMEOUT_DELAY = 5000;	//5000 = 5s
@@ -105,8 +106,6 @@ public class Endpoint {
         model = ModelFactory.createDefaultModel();
         model.read(new ByteArrayInputStream(modelString.getBytes()), null, "TTL");
 
-        DEFAULT_NAMESPACE = model.getNsPrefixURI(PREFIX);
-
         QueryPlanner queryPlanner = new QueryPlanner();
         //JSONObject jsonResponse = queryPlanner.solveQuery(model, queryString);
 
@@ -135,8 +134,6 @@ public class Endpoint {
         model = ModelFactory.createDefaultModel();
         model.read(new ByteArrayInputStream(modelString.getBytes()), null, "TTL");
 
-        DEFAULT_NAMESPACE = model.getNsPrefixURI(PREFIX);
-
         QueryPlanner queryPlanner = new QueryPlanner();
         //JSONObject jsonResponse = queryPlanner.solveQuery(model, queryString);
 
@@ -159,8 +156,6 @@ public class Endpoint {
         Model model;
         model = ModelFactory.createDefaultModel();
         model.read(new ByteArrayInputStream(modelString.getBytes()), null, "TTL");
-
-        DEFAULT_NAMESPACE = model.getNsPrefixURI(PREFIX);
 
         PropertiesFinder propertiesFinder = new PropertiesFinder();
 
@@ -260,7 +255,6 @@ public class Endpoint {
         //call the function for extracting parameters from the model - return a JSON object containing model, inputs and outputs
         ExtractParams extractParam = new ExtractParams();
         return extractParam.extraction(model);
-
     }
 
 
@@ -338,10 +332,23 @@ public class Endpoint {
         //Add header to allow cross-domain requests
         response.setHeader("Access-Control-Allow-Origin", "*");
 
+        //Create new RDF model
+        Model model = ModelFactory.createDefaultModel();
+
+        /*
+        user can pass a namespace to use for creating resources in mapping file,
+        in this case we add a NS prefix to the model, otherwise we will use PoLDo namespace.
+         */
         if(!namespace.equals("undefined")){
-            DEFAULT_NAMESPACE = namespace;
+            //namespace must be a valid URI
+            String regex = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+            if (!namespace.matches(regex)){
+                throw new WebApplicationException(Response.status(400).entity("Custom namespace must be a valid URI").build());
+            }
+            CUSTOM_NAMESPACE = namespace;
+            model.setNsPrefix(CUSTOM_NS_PREFIX, namespace);
         } else {
-            DEFAULT_NAMESPACE = DEFAULT_NAMESPACE_DEFAULT;
+            CUSTOM_NAMESPACE = DEFAULT_NAMESPACE;
         }
 
         //Analyze URL extracting endpoint and inputs
@@ -368,24 +375,22 @@ public class Endpoint {
         //if there are "/" and ".", prefix doesn't work
         endpointNoHttp = endpointNoHttp.replace("/", "-").replace(".", "-").replace(":", "-");
 
-        //Create new RDF model
-        Model model = ModelFactory.createDefaultModel();
-
         //Add namespace prefixes
+        //PoLDo
         model.setNsPrefix(PREFIX, DEFAULT_NAMESPACE);
-
+        //Standard
         model.setNsPrefix("rdfs", RDFS.uri);
         model.setNsPrefix("rdf", RDF.uri);
         model.setNsPrefix("owl", OWL.getURI());
 
         //Create Service resource
-        Resource service = model.createResource(DEFAULT_NAMESPACE + endpointNoHttp);
+        Resource service = model.createResource(CUSTOM_NAMESPACE + endpointNoHttp);
 
         //Create properties
-        Property urlProperty = model.createProperty(DEFAULT_NAMESPACE + URL_PROPERTY);
-        //Property methodProperty = model.createProperty(DEFAULT_NAMESPACE + METHOD_PROPERTY);
-        Property inputProperty = model.createProperty(DEFAULT_NAMESPACE + INPUT_PROPERTY);
-        Property languageProperty = model.createProperty(DEFAULT_NAMESPACE + LANGUAGE_PROPERTY);
+        Property urlProperty = model.createProperty(URL_PROPERTY);
+        //Property methodProperty = model.createProperty(METHOD_PROPERTY);
+        Property inputProperty = model.createProperty(INPUT_PROPERTY);
+        Property languageProperty = model.createProperty(LANGUAGE_PROPERTY);
 
         //Add properties to service resource
         service.addProperty(urlProperty, urlAnalizer.getEndpoint());
@@ -395,11 +400,11 @@ public class Endpoint {
         int i=1;
         for (String inputName : urlAnalizer.getInputArray()){
             //Create new resource for input
-            Resource inputResource = model.createResource(DEFAULT_NAMESPACE + endpointNoHttp + INPUT_URI_STRING + i );
+            Resource inputResource = model.createResource(CUSTOM_NAMESPACE + endpointNoHttp + INPUT_URI_STRING + i );
             //Add property "hasInput" to the service resource
             service.addProperty(inputProperty, inputResource);
             //Add label to the input resource
-            inputResource.addProperty(model.createProperty(DEFAULT_NAMESPACE+PARAM_NAME), inputName);
+            inputResource.addProperty(model.createProperty(PARAM_NAME), inputName);
             i++;
         }
 
@@ -419,7 +424,7 @@ public class Endpoint {
                     doc = builder.parse(new InputSource(new StringReader(serviceOutput.replaceAll("&", "&amp;"))));
                     //Call xmlAnalizer.modelbuilder and add to existing model
                     XMLAnalizer xmlAnalizer = new XMLAnalizer();
-                    model.add(xmlAnalizer.modelBuilder(doc, DEFAULT_NAMESPACE + endpointNoHttp));
+                    model.add(xmlAnalizer.modelBuilder(doc, CUSTOM_NAMESPACE + endpointNoHttp));
                 } catch (ParserConfigurationException | SAXException | IOException e) {
                     e.printStackTrace();
                 }
@@ -431,7 +436,7 @@ public class Endpoint {
                 //Call getOutput from ParserJSON that analyze the output string and generate the model for the outputs
                 ParserJSON parserJSON = new ParserJSON();
                 try {
-                    model.add(parserJSON.getOutput(serviceOutput, DEFAULT_NAMESPACE + endpointNoHttp));
+                    model.add(parserJSON.getOutput(serviceOutput, CUSTOM_NAMESPACE + endpointNoHttp));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -473,7 +478,7 @@ public class Endpoint {
         //select inputs
         String queryStrIn = "select distinct ?res ?paramName where "
                 + "{ " +
-                "?res <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME + "> ?paramName "
+                "?res <" + Endpoint.PARAM_NAME + "> ?paramName "
                 + "}";
 
         Query queryIn = QueryFactory.create(queryStrIn);
@@ -501,7 +506,7 @@ public class Endpoint {
         //select outputs
         String queryStrOut = "select distinct ?res where "
                 + "{ " +
-                "?res <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.IS_RELATED_TO_SERVICE + "> ?service "
+                "?res <" + Endpoint.IS_RELATED_TO_SERVICE + "> ?service "
                 + "}";
 
         Query queryOut = QueryFactory.create(queryStrOut);

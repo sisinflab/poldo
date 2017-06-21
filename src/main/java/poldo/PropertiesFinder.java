@@ -186,7 +186,7 @@ public class PropertiesFinder {
         }
         //propertiesArray.addAll(getPropertiesLinkedOpenVocabulary(subjectClass, objectClass));
 
-        //TODO using add it's possible to add other methods to find properties
+        //TODO using ArrayList.add it's possible to add other methods to find properties
 
         return propertiesArray;
     }
@@ -309,7 +309,7 @@ public class PropertiesFinder {
 
     public String getParamNameOfResource(String resourceURI, Model model) {
         String queryStr = "select ?label where { "
-                + "<" + resourceURI + "> <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME + "> ?label }";
+                + "<" + resourceURI + "> <" + Endpoint.PARAM_NAME + "> ?label }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, model);

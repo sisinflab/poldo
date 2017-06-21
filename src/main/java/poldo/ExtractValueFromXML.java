@@ -103,7 +103,7 @@ public class ExtractValueFromXML {
 
         //check if resource is an xml attribute
         String queryString = "select ?parent ?parentlabel ?label where {?parent "+
-                "<" +Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY + ">" +
+                "<" + Endpoint.ATTRIBUTE_PROPERTY + ">" +
                 resourceURI + " . " +
                 "?parent <http://www.w3.org/2000/01/rdf-schema#label> ?parentlabel . " +
                 resourceURI + " <http://www.w3.org/2000/01/rdf-schema#label> ?label }";

@@ -85,11 +85,11 @@ public class XMLAnalizer {
             } else {
                 //if there is no father, we are analyzing the root.
                 //We link the root to the service
-                model.createResource(outputPrefix).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY), resource);
+                model.createResource(outputPrefix).addProperty(model.createProperty(Endpoint.OUTPUT_PROPERTY), resource);
             }
 
             //link the new output resource to the service
-            resource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(outputPrefix));
+            resource.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(outputPrefix));
 
             //if there are attributes, i read them
             if (node.hasAttributes()) {
@@ -99,20 +99,20 @@ public class XMLAnalizer {
                     Resource attributeResource = model.createResource(outputPrefix + Endpoint.OUTPUT_URI_STRING + outputNumber);
 
                     //link the new attribute to the service
-                    attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(outputPrefix));
+                    attributeResource.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(outputPrefix));
 
                     attributeResource.addProperty(RDFS.label, attribute.getNodeName());
-                    attributeResource.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY), true);
+                    attributeResource.addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), true);
                     if (attribute.getTextContent().matches("[-]?+[0-9]+[\\.,]?[0-9]*")) {
-                        attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.NUMBER_CONTENT);
+                        attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.NUMBER_CONTENT);
                     } else if (node.getTextContent().equalsIgnoreCase("true")||node.getTextContent().equalsIgnoreCase("false")) {
-                        model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY)), Endpoint.BOOLEAN_CONTENT);
+                        model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.CONTENT_PROPERTY)), Endpoint.BOOLEAN_CONTENT);
                     } else {
-                        attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.STRING_CONTENT);
+                        attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.STRING_CONTENT);
                     }
                     outputNumber++;
                     //add property between node and attribute
-                    resource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ATTRIBUTE_PROPERTY), attributeResource);
+                    resource.addProperty(model.createProperty(Endpoint.ATTRIBUTE_PROPERTY), attributeResource);
 
                 }
             }
@@ -124,13 +124,13 @@ public class XMLAnalizer {
         if(!node.hasChildNodes()){
             //check if text contains only spaces
             if (node.getTextContent().trim().length()>0) {
-                model.createResource(fatherURI).addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY), true);
+                model.createResource(fatherURI).addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), true);
                 if (node.getTextContent().matches("[-]?+[0-9]+[\\.,]?[0-9]*")){
-                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY)), Endpoint.NUMBER_CONTENT);
+                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.CONTENT_PROPERTY)), Endpoint.NUMBER_CONTENT);
                 } else if (node.getTextContent().equalsIgnoreCase("true")||node.getTextContent().equalsIgnoreCase("false")) {
-                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY)), Endpoint.BOOLEAN_CONTENT);
+                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.CONTENT_PROPERTY)), Endpoint.BOOLEAN_CONTENT);
                 } else {
-                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY)), Endpoint.STRING_CONTENT);
+                    model.createResource(fatherURI).addProperty((model.createProperty(Endpoint.CONTENT_PROPERTY)), Endpoint.STRING_CONTENT);
                 }
             }
         } else {

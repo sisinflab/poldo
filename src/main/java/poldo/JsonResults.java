@@ -25,8 +25,8 @@ public class JsonResults {
 
     public String getResults(Model model, String nodo) throws IOException{
 
-        String hasStructure = "<"+ Endpoint.DEFAULT_NAMESPACE+Endpoint.HAS_STRUCTURE_PROPERTY+">";
-        String hasOutput = Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY;
+        String hasStructure = "<"+ Endpoint.HAS_STRUCTURE_PROPERTY+">";
+        String hasOutput = Endpoint.OUTPUT_PROPERTY;
 
         String check = "http://www.w3.org/1999/02/22-rdf-syntax-ns#li";
         String pred = "";

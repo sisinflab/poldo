@@ -40,7 +40,7 @@ public class ParserJSON {
 
         model = ModelFactory.createDefaultModel();
         r2rqPrefix = "";
-        propStruct = model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.HAS_STRUCTURE_PROPERTY);
+        propStruct = model.createProperty(Endpoint.HAS_STRUCTURE_PROPERTY);
         prop_li = model.createProperty(RDF.uri + "li");
 
         count = 1;
@@ -89,11 +89,11 @@ public class ParserJSON {
             Resource outAPI = model.createResource(r2rqPrefix + Endpoint.OUTPUT_URI_STRING+count);
 
             if (isRoot) {
-                model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY), outAPI);
+                model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.OUTPUT_PROPERTY), outAPI);
                 isRoot=false;
             }
 
-            outAPI.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
+            outAPI.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
 
             outAPI.addProperty(RDF.type, RDF.Bag);
             outAPI.addProperty(RDFS.label, field.getKey());
@@ -113,11 +113,11 @@ public class ParserJSON {
 
                 if(!field_obj.getValue().isArray()&&!field_obj.getValue().isObject()){
 
-                    outAPI2.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
+                    outAPI2.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
 
                     outAPI2.addProperty(RDFS.label, field_obj.getKey());
                     outAPI2.addProperty(propStruct, "JSON_Data");
-                    outAPI2.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY), true);
+                    outAPI2.addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), true);
                     checkType(field_obj.getValue().toString(),outAPI2);
                 }else{
                     //recursive call for nested structures
@@ -134,11 +134,11 @@ public class ParserJSON {
             Resource outAPI = model.createResource(r2rqPrefix + Endpoint.OUTPUT_URI_STRING+count);
 
             if (isRoot) {
-                model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY), outAPI);
+                model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.OUTPUT_PROPERTY), outAPI);
                 isRoot = false;
             }
 
-            outAPI.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
+            outAPI.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
 
             outAPI.addProperty(RDF.type, RDF.Bag);
             outAPI.addProperty(RDFS.label, field.getKey());
@@ -165,11 +165,11 @@ public class ParserJSON {
 
                         if(!field_arr.getValue().isArray()&&!field_arr.getValue().isObject()){
 
-                            outAPI2.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
+                            outAPI2.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
 
                             outAPI2.addProperty(RDFS.label, field_arr.getKey());
                             outAPI2.addProperty(propStruct, "JSON_Data");
-                            outAPI2.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY), true);
+                            outAPI2.addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), true);
                             checkType(field_arr.getValue().toString(),outAPI2);
                         }else{
                             //recursive call for nested structures
@@ -191,15 +191,15 @@ public class ParserJSON {
                 Resource outAPI = model.createResource(r2rqPrefix + Endpoint.OUTPUT_URI_STRING+count);
 
                 if (isRoot) {
-                    model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.OUTPUT_PROPERTY), outAPI);
+                    model.createResource(r2rqPrefix).addProperty(model.createProperty(Endpoint.OUTPUT_PROPERTY), outAPI);
                     isRoot=false;
                 }
 
-                outAPI.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
+                outAPI.addProperty(model.createProperty(Endpoint.IS_RELATED_TO_SERVICE), model.createResource(r2rqPrefix));
 
                 outAPI.addProperty(RDFS.label, field.getKey());
                 outAPI.addProperty(propStruct, "JSON_Data");
-                outAPI.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.ISDATA_PROPERTY), true);
+                outAPI.addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), true);
                 checkType(field.getValue().toString(),outAPI);
                 count = count + 1;
             }
@@ -231,20 +231,20 @@ public class ParserJSON {
     public void checkType(String value,Resource attributeResource){
 
         if (value.matches("[-]?+[0-9]+[\\.,]?[0-9]*")) {
-            attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.NUMBER_CONTENT);
+            attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.NUMBER_CONTENT);
 
         } else {
 
             if(value.equalsIgnoreCase("true")){
-                attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.BOOLEAN_CONTENT);
+                attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.BOOLEAN_CONTENT);
 
 
             }else if(value.equalsIgnoreCase("false")){
-                attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.BOOLEAN_CONTENT);
+                attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.BOOLEAN_CONTENT);
 
 
             }else{
-                attributeResource.addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.CONTENT_PROPERTY), Endpoint.STRING_CONTENT);
+                attributeResource.addProperty(model.createProperty(Endpoint.CONTENT_PROPERTY), Endpoint.STRING_CONTENT);
 
 
             }

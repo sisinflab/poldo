@@ -37,7 +37,7 @@ public class EditMapping {
             model = ModelFactory.createDefaultModel();
             model.read(new ByteArrayInputStream(jsonObject.getString("model").getBytes()), null, "TTL");
 
-            Endpoint.DEFAULT_NAMESPACE = model.getNsPrefixURI(Endpoint.PREFIX);
+            Endpoint.CUSTOM_NAMESPACE = model.getNsPrefixURI(Endpoint.PREFIX);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -346,7 +346,7 @@ public class EditMapping {
                     //add type
                     model.createResource(newResourceURI).addProperty(
                             RDF.type,
-                            model.createResource(Endpoint.DEFAULT_NAMESPACE + Endpoint.ADDED_RESOURCE));
+                            model.createResource(Endpoint.ADDED_RESOURCE));
 
                     //if the new resource is subject of some property, i add them.
                     if (addResourceArray.getJSONObject(i).has("resourceIsSubjectOf")){
@@ -377,7 +377,7 @@ public class EditMapping {
                     if (addResourceArray.getJSONObject(i).has("findUri")){
                         String findUri = addResourceArray.getJSONObject(i).getString("findUri");
                         model.createResource(newResourceURI).addLiteral(
-                                model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.FIND_URI),
+                                model.createProperty(Endpoint.FIND_URI),
                                 findUri);
                     }
                 }
@@ -395,12 +395,12 @@ public class EditMapping {
      */
     public void editInput(String inputURI, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue, String findUri){
         if(isRequired!=null){
-            model.createResource(inputURI).removeAll(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY));
-            model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY), isRequired);
+            model.createResource(inputURI).removeAll(model.createProperty(Endpoint.ISREQUIRED_PROPERTY));
+            model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.ISREQUIRED_PROPERTY), isRequired);
         }
         if(findUri!=null){
-            model.createResource(inputURI).removeAll(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI));
-            model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
+            model.createResource(inputURI).removeAll(model.createProperty(Endpoint.FIND_URI));
+            model.createResource(inputURI).addLiteral(model.createProperty(Endpoint.FIND_URI), findUri);
         }
 		/*handle DatatypeProperty*/
         if (DatatypeProperty!=null){
@@ -428,7 +428,7 @@ public class EditMapping {
         }
         if(fixedValue!=null){
             if (!fixedValue.equalsIgnoreCase("")) {
-                Property hasFixedValueProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.HAS_FIXED_VALUE);
+                Property hasFixedValueProperty = model.createProperty(Endpoint.HAS_FIXED_VALUE);
                 model.createResource(inputURI).removeAll(hasFixedValueProperty);
                 model.createResource(inputURI).addLiteral(hasFixedValueProperty, fixedValue);
                 model.createResource(inputURI).removeAll(RDF.type);
@@ -447,14 +447,14 @@ public class EditMapping {
     public void addInput(String serviceURI, String label, Boolean isRequired, Boolean DatatypeProperty, String classRDF, String fixedValue, String findUri){
         int numberURI = firstURIAvailable(serviceURI + Endpoint.INPUT_URI_STRING);
         Resource input = model.createResource(serviceURI + Endpoint.INPUT_URI_STRING + numberURI);
-        model.createResource(serviceURI).addProperty(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.INPUT_PROPERTY), input);
-        input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE + Endpoint.PARAM_NAME), label);
+        model.createResource(serviceURI).addProperty(model.createProperty(Endpoint.INPUT_PROPERTY), input);
+        input.addLiteral(model.createProperty(Endpoint.PARAM_NAME), label);
         if (isRequired!=null){
-            input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISREQUIRED_PROPERTY), isRequired);
+            input.addLiteral(model.createProperty(Endpoint.ISREQUIRED_PROPERTY), isRequired);
         }
 
         if(findUri!=null){
-            input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
+            input.addLiteral(model.createProperty(Endpoint.FIND_URI), findUri);
         }
 
 
@@ -483,7 +483,7 @@ public class EditMapping {
         }
 
         if(fixedValue!=null & !fixedValue.equalsIgnoreCase("")){
-            input.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.HAS_FIXED_VALUE), fixedValue);
+            input.addLiteral(model.createProperty(Endpoint.HAS_FIXED_VALUE), fixedValue);
             input.addProperty(RDF.type, model.createResource(input.toString()+"key"));
         }
     }
@@ -497,9 +497,9 @@ public class EditMapping {
      */
     public void editOutput(String outputURI, Boolean isData, Boolean DatatypeProperty, String content, String classRDF, String findUri){
         Resource output = model.createResource(outputURI);
-        Property isDataProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY);
-        Property contentProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY);
-        Property findUriProperty = model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI);
+        Property isDataProperty = model.createProperty(Endpoint.ISDATA_PROPERTY);
+        Property contentProperty = model.createProperty(Endpoint.CONTENT_PROPERTY);
+        Property findUriProperty = model.createProperty(Endpoint.FIND_URI);
 
         if (isData!=null){
             output.removeAll(isDataProperty);
@@ -557,13 +557,13 @@ public class EditMapping {
         parent.addProperty(model.createProperty(Endpoint.LI_PROPERTY), output);
         output.addProperty(RDFS.label, label);
         if (isData!=null){
-            output.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.ISDATA_PROPERTY), isData);
+            output.addLiteral(model.createProperty(Endpoint.ISDATA_PROPERTY), isData);
         }
         if (content!=null){
-            output.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.CONTENT_PROPERTY), content);
+            output.addLiteral(model.createProperty(Endpoint.CONTENT_PROPERTY), content);
         }
         if (findUri!=null){
-            output.addLiteral(model.createProperty(Endpoint.DEFAULT_NAMESPACE+Endpoint.FIND_URI), findUri);
+            output.addLiteral(model.createProperty(Endpoint.FIND_URI), findUri);
         }
 
 		/*handle DatatypeProperty*/
@@ -627,7 +627,7 @@ public class EditMapping {
     public String getService (){
 
         String queryStr = "select ?service where { "
-                + "?service <" + Endpoint.DEFAULT_NAMESPACE + Endpoint.URL_PROPERTY + "> ?url }";
+                + "?service <" + Endpoint.URL_PROPERTY + "> ?url }";
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query,model);
