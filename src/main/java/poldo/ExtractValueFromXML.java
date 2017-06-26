@@ -25,11 +25,11 @@ import org.w3c.dom.NodeList;
 
 public class ExtractValueFromXML {
 
-    public HashMap<Integer, ArrayList<String>> getValueList(Model model, Document xmlDocument, String resourceURI, String antenatoComuneURI){
+    public HashMap<Integer, ArrayList<String>> getValueList(Model model, Document xmlDocument, String resourceURI, String antenatoComuneURI) {
 
-        HashMap <Integer, ArrayList<String>> values = new HashMap <Integer, ArrayList<String>>();
+        HashMap<Integer, ArrayList<String>> values = new HashMap<Integer, ArrayList<String>>();
 
-        String expression = getExpression (model, resourceURI);
+        String expression = getExpression(model, resourceURI);
 
         String antenatoComuneLabel = getLabelOfResource(antenatoComuneURI, model);
 
@@ -37,10 +37,13 @@ public class ExtractValueFromXML {
 
         // replace first part of xpath
         // /a/b/c become /a/b/c[1]
+        // if b is the common ancestor: /a/b/c become /a/b[1]/c
 
-        expression = expression.replaceFirst(getExpression(model, antenatoComuneLabel)+antenatoComuneLabel, getExpression(model, antenatoComuneLabel)+antenatoComuneLabel+"[" + i + "]");
+        expression = expression.replaceFirst(getExpression(model, antenatoComuneLabel) + antenatoComuneLabel, getExpression(model, antenatoComuneLabel) + antenatoComuneLabel + "[" + i + "]");
 
         ArrayList<String> valueList = new ArrayList<String>();
+
+        Boolean isNewRow = true;
 
         do {
 
@@ -48,30 +51,41 @@ public class ExtractValueFromXML {
 
                 valueList = new ArrayList<String>();
 
-                XPath xPath =  XPathFactory.newInstance().newXPath();
+                XPath xPath = XPathFactory.newInstance().newXPath();
                 NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
 
-                for (int contNode = 0; contNode < nodeList.getLength(); contNode++) {
-                    valueList.add(nodeList.item(contNode).getFirstChild().getNodeValue());
+                if (nodeList.getLength()!=0) {
+                    for (int contNode = 0; contNode < nodeList.getLength(); contNode++) {
+                        if (nodeList.item(contNode).getFirstChild() != null) {
+                            valueList.add(nodeList.item(contNode).getFirstChild().getNodeValue());
+                        }
+                    }
                 }
 
-                if (valueList.size()!=0){
-                    values.put(i, valueList);
-                    i++;
-                    expression = expression.replaceAll("[" + (i-1) + "]", ""+i );
+                values.put(i, valueList);
+                i++;
+                expression = expression.substring(0, expression.indexOf("[")+1) + i + expression.substring(expression.indexOf("]"));
+
+                //check if there is another row
+                String parentExpression = expression.substring(0, expression.indexOf("[")+1) + i + "]";
+                NodeList rowList = (NodeList) xPath.compile(parentExpression).evaluate(xmlDocument, XPathConstants.NODESET);
+                if (rowList.getLength()==0) {
+                    isNewRow = false;
                 }
 
             } catch (XPathExpressionException e) {
                 e.printStackTrace();
             }
 
-        } while (valueList.size()!=0);
+
+
+        } while (isNewRow);
 
         return values;
     }
 
 
-    public List<String> getValueList(Model model, Document xmlDocument, String resourceURI){
+    public List<String> getValueList(Model model, Document xmlDocument, String resourceURI) {
 
         List<String> valueList = new ArrayList<String>();
 
@@ -79,11 +93,15 @@ public class ExtractValueFromXML {
 
         try {
 
-            XPath xPath =  XPathFactory.newInstance().newXPath();
+            XPath xPath = XPathFactory.newInstance().newXPath();
             NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
 
             for (int i = 0; i < nodeList.getLength(); i++) {
-                valueList.add(nodeList.item(i).getFirstChild().getNodeValue());
+
+                //handle void nodes  (<nodename/>)
+                if (nodeList.item(i).getFirstChild() != null) {
+                    valueList.add(nodeList.item(i).getFirstChild().getNodeValue());
+                }
             }
 
         } catch (XPathExpressionException e) {
@@ -94,35 +112,42 @@ public class ExtractValueFromXML {
     }
 
 
-    public static String getExpression (Model model, String resourceURI) {
-        if (!resourceURI.startsWith("<")){
-            resourceURI = "<"+ resourceURI +">";
+    /**
+     * Return the xPath of the resource
+     *
+     * @param model       mapping model
+     * @param resourceURI Uri of the resource in mapping model
+     * @return
+     */
+    public static String getExpression(Model model, String resourceURI) {
+        if (!resourceURI.startsWith("<")) {
+            resourceURI = "<" + resourceURI + ">";
         }
 
         String expression = "";
 
         //check if resource is an xml attribute
-        String queryString = "select ?parent ?parentlabel ?label where {?parent "+
+        String queryString = "select ?parent ?parentlabel ?label where {?parent " +
                 "<" + Endpoint.ATTRIBUTE_PROPERTY + ">" +
                 resourceURI + " . " +
                 "?parent <http://www.w3.org/2000/01/rdf-schema#label> ?parentlabel . " +
                 resourceURI + " <http://www.w3.org/2000/01/rdf-schema#label> ?label }";
         Query query = QueryFactory.create(queryString);
-        QueryExecution qexec = QueryExecutionFactory.create(query,model);
+        QueryExecution qexec = QueryExecutionFactory.create(query, model);
         ResultSet result = qexec.execSelect();
 
         //if it is not an attribute, search for the parent
-        if (!result.hasNext()){
+        if (!result.hasNext()) {
 
-            queryString = "select ?parent ?parentlabel ?label where {?parent "+
-                    "<" +Endpoint.LI_PROPERTY + ">" +
+            queryString = "select ?parent ?parentlabel ?label where {?parent " +
+                    "<" + Endpoint.LI_PROPERTY + ">" +
                     resourceURI + " . " +
                     "?parent <http://www.w3.org/2000/01/rdf-schema#label> ?parentlabel . " +
                     resourceURI + " <http://www.w3.org/2000/01/rdf-schema#label> ?label }";
             query = QueryFactory.create(queryString);
-            qexec = QueryExecutionFactory.create(query,model);
+            qexec = QueryExecutionFactory.create(query, model);
             result = qexec.execSelect();
-            if (result.hasNext()){
+            if (result.hasNext()) {
                 QuerySolution solution = result.nextSolution();
                 Resource parent = solution.getResource("parent");
                 Literal label = solution.getLiteral("label");
@@ -140,23 +165,23 @@ public class ExtractValueFromXML {
 
             resourceURI = "<" + parent.toString() + ">";
 
-            expression = parentLabel.toString() +"/@" + label.toString();
+            expression = parentLabel.toString() + "/@" + label.toString();
 
         }
 
-        Boolean isChild=true;
+        Boolean isChild = true;
 
-        while (isChild){
-            queryString = "select ?parent ?parentlabel where {?parent "+
+        while (isChild) {
+            queryString = "select ?parent ?parentlabel where {?parent " +
                     "<" + Endpoint.LI_PROPERTY + ">" +
                     resourceURI + " . " +
                     "?parent <http://www.w3.org/2000/01/rdf-schema#label> ?parentlabel }";
             query = QueryFactory.create(queryString);
-            qexec = QueryExecutionFactory.create(query,model);
+            qexec = QueryExecutionFactory.create(query, model);
             result = qexec.execSelect();
-            if (!result.hasNext()){
-                isChild=false;
-                expression = "/"+expression;
+            if (!result.hasNext()) {
+                isChild = false;
+                expression = "/" + expression;
             } else {
                 QuerySolution solution = result.nextSolution();
                 Resource parent = solution.getResource("parent");
@@ -164,7 +189,7 @@ public class ExtractValueFromXML {
 
                 resourceURI = "<" + parent.toString() + ">";
 
-                expression = parentLabel.toString() +"/"+ expression;
+                expression = parentLabel.toString() + "/" + expression;
 
             }
         }
@@ -172,15 +197,15 @@ public class ExtractValueFromXML {
     }
 
 
-    public static String getLabelOfResource(String resourceURI, Model model){
+    public static String getLabelOfResource(String resourceURI, Model model) {
         String queryStr = "select ?label where { "
                 + "<" + resourceURI + "> <" + RDFS.label + "> ?label }";
 
         Query query = QueryFactory.create(queryStr);
-        QueryExecution qexec = QueryExecutionFactory.create(query,model);
+        QueryExecution qexec = QueryExecutionFactory.create(query, model);
         ResultSet result = qexec.execSelect();
 
-        if (result.hasNext()){
+        if (result.hasNext()) {
             QuerySolution solution = result.nextSolution();
             Literal label = solution.getLiteral("label");
             return label.toString();

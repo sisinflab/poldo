@@ -256,7 +256,7 @@ poldo:xml-com-root  a             rdf:Bag ;
 poldo:xml-com  poldo:hasInput  <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com#a> ;
         poldo:hasLanguage  "xml" ;
         poldo:hasOutput    poldo:xml-com-root ;
-        poldo:hasUrl       "http://193.204.59.23:10059/output.xml" .
+        poldo:hasUrl       "http://193.204.59.23:10059/output-completo.xml" .
 
 <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Est>
         a                         owl:DatatypeProperty ;
