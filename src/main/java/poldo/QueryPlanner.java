@@ -1270,14 +1270,17 @@ public class QueryPlanner {
                     for (int indexObject = 0; indexObject < objectValues.size(); indexObject++) {
 
                         subjectURIrdfCache = getUriInRdfCache(subjectValues.get(indexSubject), typeOfSubject);
-                        objectURIrdfCache = getUriInRdfCache(objectValues.get(indexObject), typeOfObject);
 
                         resourceSubj = rdfCache.createResource(subjectURIrdfCache);
-                        resourceObj = rdfCache.createResource(objectURIrdfCache);
                         property = rdfCache.createProperty(propertyURI);
+
                         if (isSamePropertyAs(propertyURI)) {
-                            resourceSubj.addLiteral(property, objectValues.get(indexObject).replaceAll("\"", ""));
+                            //resourceSubj.addLiteral(property, objectValues.get(indexObject).replaceAll("\"", ""));
+                            resourceSubj.addLiteral(property, objectValues.get(indexObject));
                         } else {
+                            objectURIrdfCache = getUriInRdfCache(objectValues.get(indexObject), typeOfObject);
+                            resourceObj = rdfCache.createResource(objectURIrdfCache);
+
                             resourceSubj.addProperty(property, resourceObj);
                         }
 
