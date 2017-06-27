@@ -1,19 +1,14 @@
 package poldo;
 
 
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 
 public class XMLAnalizer {

@@ -5,7 +5,6 @@ import org.apache.jena.rdf.model.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class TestURI implements FindURI {
 

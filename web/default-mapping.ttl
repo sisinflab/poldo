@@ -385,10 +385,6 @@ poldo:xml-com  poldo:hasLanguage  "xml" ;
         poldo:isRelatedToService  poldo:xml-com ;
         owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasAngoloCriticoTD> .
 
-<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com#a>
-        poldo:paramName  "a" ;
-        a                       <http://www.w3.org/2002/07/owl#Thing> .
-
 <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/CF>
         a                         owl:DatatypeProperty ;
         rdfs:label                "CF" ;

@@ -1,11 +1,12 @@
 package poldo;
 
 
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Model;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.query.*;
 
 
 public class JsonResults {

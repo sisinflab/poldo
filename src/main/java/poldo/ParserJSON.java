@@ -1,20 +1,20 @@
 package poldo;
 
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
-import org.apache.jena.query.Query;
-import org.apache.jena.query.QueryExecution;
-import org.apache.jena.query.QueryExecutionFactory;
-import org.apache.jena.query.QueryFactory;
-import org.apache.jena.query.ResultSet;
+import org.apache.jena.query.*;
+import org.apache.jena.rdf.model.Model;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.RDF;
+import org.apache.jena.vocabulary.RDFS;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import org.apache.jena.rdf.model.*;
-import org.apache.jena.vocabulary.*;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 public class ParserJSON {
 
