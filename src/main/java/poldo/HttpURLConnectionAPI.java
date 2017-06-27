@@ -9,9 +9,9 @@ import java.util.Map;
 public class HttpURLConnectionAPI {
 
     /**
-     *
-     * @param url
-     * @param params
+     * Get connection with params
+     * @param url base url
+     * @param params get params
      * @throws Exception
      */
     String sendGet(String url,Map<String, String> params) throws Exception {
@@ -67,4 +67,42 @@ public class HttpURLConnectionAPI {
         }
     }
 
+    /**
+     * Get connection with no params (free sources)
+     * @param url location of the file
+     * @return
+     * @throws Exception
+     */
+    String sendGet(String url) throws Exception {
+
+        System.out.println(url);
+
+		/*Server connection*/
+        URL obj = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+        con.setRequestMethod("GET");
+
+        int responseCode = con.getResponseCode();
+
+        if(responseCode == 200){
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            return response.toString();
+
+        }else{
+
+            return ""+responseCode;
+
+        }
+    }
 }

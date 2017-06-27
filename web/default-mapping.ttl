@@ -253,8 +253,7 @@ poldo:xml-com-root  a             rdf:Bag ;
         poldo:isRelatedToService  poldo:xml-com ;
         owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#campaign> .
 
-poldo:xml-com  poldo:hasInput  <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com#a> ;
-        poldo:hasLanguage  "xml" ;
+poldo:xml-com  poldo:hasLanguage  "xml" ;
         poldo:hasOutput    poldo:xml-com-root ;
         poldo:hasUrl       "http://193.204.59.23:10059/output-completo.xml" .
 

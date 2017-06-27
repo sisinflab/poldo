@@ -216,6 +216,9 @@ public class QueryPlanner {
             }
         }, Endpoint.TIMEOUT_DELAY);
 
+        //call free sources (services with no inputs)
+        callFreeSources();
+
         //TODO change stop condition if necessary. Stop after 10 times.
         for (int i = 0; i < 10; i++) {
             if (nuoviValori & !timeout & !limitReached) {
@@ -284,6 +287,156 @@ public class QueryPlanner {
 
     }
 
+    public void callFreeSources() {
+
+        ArrayList<String> freeSources = getFreeSources();
+
+        for (int indexSource=0; indexSource<freeSources.size(); indexSource++){
+            //callService(freeSources.get(i));
+            //TODO callService non va bene, altrimenti bisogna mettere tutti i controlli if (input=null)
+
+            String serviceString = freeSources.get(indexSource);
+
+            String url = getUrlOfService(serviceString);
+
+            //call service
+            HttpURLConnectionAPI http = new HttpURLConnectionAPI();
+
+            String response;
+
+            List<String> result = new ArrayList<String>();
+            ArrayList<String> elems = new ArrayList<String>();
+
+            try {
+                response = http.sendGet(url);
+
+                if (response.startsWith("[")){
+                    response="{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : "+response+" }";
+                }
+
+                ArrayList<String> outputURIList = getOutputsURIOfService(serviceString);
+
+                String languageOfService = getLanguageOfService(serviceString);
+
+                // XML
+                if (languageOfService.equalsIgnoreCase("xml")) {
+
+                    //System.out.println("response: " + response);
+
+                    DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder builder = builderFactory.newDocumentBuilder();
+                    InputSource is = new InputSource(new StringReader(response));
+                    Document xmlDocument = builder.parse(is);
+
+                    ExtractValueFromXML extractValueFromXML = new ExtractValueFromXML();
+
+                    //extract outputs
+                    for (int i = 0; i < outputURIList.size(); i++) {
+                        result = extractValueFromXML.getValueList(model, xmlDocument, outputURIList.get(i));
+                        String classe = getTypeOfResource(outputURIList.get(i));
+
+                        if (classe != null) {
+                            //if output = datatypeprop and there is a "samePropertyAs", use that as key
+                            if (classe.equalsIgnoreCase(OWL.DatatypeProperty.toString()) && isSamePropertyAs(classe)) {
+                                classe = selectSamePropertyAs(classe).get(0);
+                            }
+                            // if there is not a samePropertyAs, ignore results (used only for RDFCache)
+                            if (classe.equalsIgnoreCase(OWL.DatatypeProperty.toString()) && !isSamePropertyAs(classe)) {
+                                result.clear();
+                            }
+
+                            //every output can have more values
+                            for (int j = 0; j < result.size(); j++) {
+                                //add to rdfCache
+                                addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0);
+                                //add to costantsTable
+                                if (constantsTable.containsKey(classe)) {
+                                    constantsTable.get(classe).add(result.get(j));
+                                } else {
+                                    List<String> valueList = new ArrayList<String>();
+                                    valueList.add(result.get(j));
+                                    constantsTable.put(classe, valueList);
+                                }
+                            }
+                        }
+                    }
+
+
+                    // JSON
+                } else if (languageOfService.equalsIgnoreCase("json")) {
+
+                    //extract outputs
+                    for (int i = 0; i < outputURIList.size(); i++) {
+                        JsonResults jsonResults = new JsonResults();
+                        String path_resource = jsonResults.getResults(model, outputURIList.get(i));
+                        AnalizerPath end_path = new AnalizerPath();
+                        elems = end_path.analizer(path_resource);
+                        ValuesJSON values = new ValuesJSON();
+                        result = values.getValuesData(response, elems);
+                        String classe = getTypeOfResource(outputURIList.get(i));
+
+                        if (classe != null) {
+                            //if output = datatypeprop and there is a "samePropertyAs", use that as key
+                            if (classe.equalsIgnoreCase(OWL.DatatypeProperty.toString()) && isSamePropertyAs(classe)) {
+                                classe = selectSamePropertyAs(classe).get(0);
+                            }
+                            // if there is not a samePropertyAs, ignore results (used only for RDFCache)
+                            if (classe.equalsIgnoreCase(OWL.DatatypeProperty.toString()) && !isSamePropertyAs(classe)) {
+                                result.clear();
+                            }
+
+                            //every output can have more values
+                            for (int j = 0; j < result.size(); j++) {
+                                //add to rdfCache
+                                addResourceToRdfCache(result.get(j), classe, outputURIList.get(i), null, null, null, null, null, null, 0);
+                                //add to costantsTable
+                                if (constantsTable.containsKey(classe)) {
+                                    constantsTable.get(classe).add(result.get(j));
+                                } else {
+                                    List<String> valueList = new ArrayList<String>();
+                                    valueList.add(result.get(j));
+                                    constantsTable.put(classe, valueList);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //search for properties to link resources in rdfCache
+                //search customResource related to the service
+
+                ArrayList<String> addedResourcesList = new ArrayList<String>();
+                addedResourcesList = getAddedResourcesOfService(serviceString);
+
+                //add to rdfCache
+                for (int i = 0; i < addedResourcesList.size(); i++) {
+                    addAddedResourceWithPropertiesToRdfCache(addedResourcesList.get(i),
+                            response,
+                            languageOfService,
+                            null);
+                }
+
+                //search for properties between outputs
+                ArrayList<TriplePattern> tripleList = new ArrayList<TriplePattern>();
+                tripleList = getPropertyBetweenOutputs(serviceString);
+
+                //add to rdfCache for every property
+                for (int i = 0; i < tripleList.size(); i++) {
+                    addPropertyBetweenOutputsToRdfCache(tripleList.get(i).getSubject(),
+                            tripleList.get(i).getProperty(),
+                            tripleList.get(i).getObject(),
+                            response,
+                            languageOfService);
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 
     public boolean getNewValuesFromApi() {
 
@@ -1607,6 +1760,34 @@ public class QueryPlanner {
         }
 
         return resourceURIList;
+    }
+
+    /**
+     * Select sources with no inputs
+     * @return
+     */
+    public ArrayList<String> getFreeSources() {
+        ArrayList<String> freeSources = new ArrayList<String>();
+
+        String queryStr = "select ?source where { " +
+                "?source <" + Endpoint.URL_PROPERTY + "> ?url " +
+                "MINUS " +
+                "{ " +
+                "?source <" + Endpoint.INPUT_PROPERTY + "> ?input " +
+                "} " +
+                "}";
+
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qexec = QueryExecutionFactory.create(query, model);
+        ResultSet result = qexec.execSelect();
+
+        while (result.hasNext()) {
+            QuerySolution solution = result.nextSolution();
+            Resource resource = solution.getResource("source");
+            freeSources.add(resource.toString());
+        }
+
+        return freeSources;
     }
 
     public ArrayList<String> getOutputsURIOfService(String serviceURI) {
