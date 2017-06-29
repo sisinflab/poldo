@@ -88,9 +88,10 @@ public class URLAnalizer {
      */
     public int analizeURL(String url){
         int start = url.indexOf("?") + 1;
-        //if i don't find "?", return -1 (error)
-        if(start==-1){
-            return -1;
+        //if i don't find "?", no input -> free source
+        if(start==0){
+            setEndpoint(url);
+            return 0;
         }
         //if i don't find "=", return -1 (error)
         int end = url.indexOf("=", start);
