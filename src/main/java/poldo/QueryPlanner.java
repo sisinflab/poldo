@@ -2508,7 +2508,7 @@ public class QueryPlanner {
                 "WHERE { " +
                 "<"+uri+"> rdfs:label ?label . " +
                 "<"+uri+"> a ?type " +
-                //"FILTER(LANG(?label) = \"\" || LANGMATCHES(LANG(?label), \""+Endpoint.LANG_DBPEDIA+"\")) " +
+                "FILTER(LANG(?label) = \"\" || LANGMATCHES(LANG(?label), \""+Endpoint.LANG_DBPEDIA+"\")) " +
                 "}";
 
         Query query = QueryFactory.create(queryString);
