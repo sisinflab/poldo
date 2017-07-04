@@ -109,6 +109,15 @@ public class QueryPlanner {
         //extract constants from graph pattern
         for (int index = 0; index < patternList.size(); index++) {
 
+            //get labels from DBPedia
+            if (isDBPediaUri(patternList.get(index).getSubject())) {
+                writeConstantsLabelAndTypeFromDBPedia (patternList.get(index).getSubject());
+            }
+            if (isDBPediaUri(patternList.get(index).getObject())) {
+                writeConstantsLabelAndTypeFromDBPedia (patternList.get(index).getObject());
+            }
+
+
             //if starts with " is a LITERAL
             if (patternList.get(index).getObject().startsWith("\"")) {
                 List<String> typeList = new ArrayList<String>();
@@ -148,7 +157,7 @@ public class QueryPlanner {
 
                 }
 
-                //labelsTable could be deleted
+                //labelsTable could be deleted - no more used
                 if (labelsTable.containsKey(patternList.get(index).getSubject())) {
                     labelsTable.get(patternList.get(index).getSubject()).add(patternList.get(index).getObject());
                 } else {
@@ -168,11 +177,7 @@ public class QueryPlanner {
             //add only if it is not datatypeProperty
             if (!isSamePropertyAs(keyClasse)) {
                 for (int index = 0; index < valueList.size(); index++) {
-                    Resource resource = rdfCache.createResource(Endpoint.CUSTOM_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex);
-                    resourceIndex++;
-                    Resource keyClasseResource = rdfCache.createResource(keyClasse);
-                    resource.addProperty(RDF.type, keyClasseResource);
-                    resource.addLiteral(RDFS.label, valueList.get(index).replaceAll("\"", ""));
+                    addResourceToRdfCache(valueList.get(index).replaceAll("\"", ""), keyClasse, null, null, null, null, null, null, null, -1);
                 }
             }
         }
@@ -1495,7 +1500,7 @@ public class QueryPlanner {
      * Check if a resource with a label and class already exists, if not it add a new resource
      *
      * @param label
-     * @param classe
+     * @param type
      * @param mappingURI
      * @param propertyListResIsSub List of property with customResource as subject
      * @param propertyListResIsOb   List of property with customResource as object
@@ -1504,7 +1509,7 @@ public class QueryPlanner {
      * @param inputIsSubject       key: uri of property and value of input
      * @param inputIsObject        key: uri of property and value of input
      */
-    public void addResourceToRdfCache(String label, String classe, String mappingURI,
+    public void addResourceToRdfCache(String label, String type, String mappingURI,
                                       ArrayList<String> propertyListResIsSub,
                                       ArrayList<String> propertyListResIsOb,
                                       ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
@@ -1519,71 +1524,79 @@ public class QueryPlanner {
 
         String queryStr = "select ?resourceURI where { "
                 + "?resourceURI <" + RDFS.label + "> \"" + label + "\" ."
-                + "?resourceURI <" + RDF.type + "> <" + classe + "> }";
+                + "?resourceURI <" + RDF.type + "> <" + type + "> }";
 
 
         Query query = QueryFactory.create(queryStr);
         QueryExecution qexec = QueryExecutionFactory.create(query, rdfCache);
         ResultSet result = qexec.execSelect();
 
-        //add resource only if the previous query get no results
+        //add resource only if the previous query get no results, else finish
         if (!result.hasNext()) {
-
-            //check if there is findUri property
-            String queryStrMapping = "select ?classFindURI where { "
-                    + "<" + mappingURI + "> <" + Endpoint.FIND_URI + "> ?classFindURI "
-                    + " }";
-
-
-            Query queryMapping = QueryFactory.create(queryStrMapping);
-            QueryExecution qexecMapping = QueryExecutionFactory.create(queryMapping, model);
-            ResultSet resultMapping = qexecMapping.execSelect();
 
             String resourceUriString = "";
 
-            if (resultMapping.hasNext()) {
-                //call the class specified by the user
-                QuerySolution solution = resultMapping.nextSolution();
-                String className = solution.getLiteral("classFindURI").toString();
-                //System.out.println(className);
-                try {
-                    Class<?> cls = Class.forName(className);
-                    Object obj = cls.newInstance();
 
-                    //custom parameter
-                    Class[] paramCustom = new Class[9];
-                    paramCustom[0] = ArrayList.class;
-                    paramCustom[1] = ArrayList.class;
-                    paramCustom[2] = ArrayList.class;
-                    paramCustom[3] = ArrayList.class;
-                    paramCustom[4] = ArrayList.class;
-                    paramCustom[5] = HashMap.class;
-                    paramCustom[6] = HashMap.class;
-                    paramCustom[7] = Integer.class;
-                    paramCustom[8] = Model.class;
+            //mappingURI is null for resources extracted from query graph pattern
+            if(mappingURI!=null) {
+                //check if there is findUri property
+                String queryStrMapping = "select ?classFindURI where { "
+                        + "<" + mappingURI + "> <" + Endpoint.FIND_URI + "> ?classFindURI "
+                        + " }";
 
 
-                    Method method = cls.getDeclaredMethod("getResourceURI", paramCustom);
-                    ArrayList<String> arrayList = new ArrayList<String>();
+                Query queryMapping = QueryFactory.create(queryStrMapping);
+                QueryExecution qexecMapping = QueryExecutionFactory.create(queryMapping, model);
+                ResultSet resultMapping = qexecMapping.execSelect();
 
-                    arrayList.add(label);
-                    arrayList.add(classe);
+                if (resultMapping.hasNext()) {
+                    //call the class specified by the user
+                    QuerySolution solution = resultMapping.nextSolution();
+                    String className = solution.getLiteral("classFindURI").toString();
+                    //System.out.println(className);
+                    try {
+                        Class<?> cls = Class.forName(className);
+                        Object obj = cls.newInstance();
 
-                    resourceUriString = (String) method.invoke(obj, arrayList, propertyListResIsSub, propertyListResIsOb, valuesArrayResIsSub, valuesArrayResIsOb, inputIsSubject, inputIsObject, key, model);
+                        //custom parameter
+                        Class[] paramCustom = new Class[9];
+                        paramCustom[0] = ArrayList.class;
+                        paramCustom[1] = ArrayList.class;
+                        paramCustom[2] = ArrayList.class;
+                        paramCustom[3] = ArrayList.class;
+                        paramCustom[4] = ArrayList.class;
+                        paramCustom[5] = HashMap.class;
+                        paramCustom[6] = HashMap.class;
+                        paramCustom[7] = Integer.class;
+                        paramCustom[8] = Model.class;
 
-                } catch (Exception e) {
-                    // Auto-generated catch block
-                    e.printStackTrace();
+
+                        Method method = cls.getDeclaredMethod("getResourceURI", paramCustom);
+                        ArrayList<String> arrayList = new ArrayList<String>();
+
+                        arrayList.add(label);
+                        arrayList.add(type);
+
+                        resourceUriString = (String) method.invoke(obj, arrayList, propertyListResIsSub, propertyListResIsOb, valuesArrayResIsSub, valuesArrayResIsOb, inputIsSubject, inputIsObject, key, model);
+
+                    } catch (Exception e) {
+                        // Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    //if there isn't findURI property
+                    resourceUriString = Endpoint.CUSTOM_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex;
+                    resourceIndex++;
                 }
-
             } else {
-                //if there isn't findURI property
+                //if mappingURI == null
                 resourceUriString = Endpoint.CUSTOM_NAMESPACE + Endpoint.RESOURCE_URI_STRING + resourceIndex;
                 resourceIndex++;
             }
 
             Resource resource = rdfCache.createResource(resourceUriString);
-            Resource classeResource = rdfCache.createResource(classe);
+            Resource classeResource = rdfCache.createResource(type);
             resource.addProperty(RDF.type, classeResource);
             resource.addLiteral(RDFS.label, label.replaceAll("\"", ""));
         }
@@ -2479,6 +2492,70 @@ public class QueryPlanner {
         }
 
         return rdfTypeList;
+    }
+
+
+    public boolean isDBPediaUri(String uri) {
+        return uri.contains("http://dbpedia.org/");
+    }
+
+    public void writeConstantsLabelAndTypeFromDBPedia (String uri) {
+        List<String> typeList = new ArrayList<>();
+        List<String> valueList = new ArrayList<>();
+
+        String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
+                "SELECT ?label ?type " +
+                "WHERE { " +
+                "<"+uri+"> rdfs:label ?label . " +
+                "<"+uri+"> a ?type " +
+                //"FILTER(LANG(?label) = \"\" || LANGMATCHES(LANG(?label), \""+Endpoint.LANG_DBPEDIA+"\")) " +
+                "}";
+
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        ResultSet result = qexec.execSelect();
+
+        //add all results to values and types list
+        for (; result.hasNext() ;){
+            QuerySolution solution = result.nextSolution();
+            String label = solution.getLiteral("label").toString();
+            String type = solution.getResource("type").toString();
+            if (label.contains("@")){
+                label = label.substring(0, label.indexOf("@"));
+            }
+            if (!valueList.contains(label)){
+                valueList.add(label);
+            }
+            if (!typeList.contains(type)){
+                typeList.add(type);
+            }
+        }
+
+        //add constant to constantsTable
+        for (int indexTypeList = 0; indexTypeList < typeList.size(); indexTypeList++) {
+            Boolean completeListAdded = false;
+            for (int indexValueList = 0; indexValueList < valueList.size(); indexValueList++) {
+
+                //add resource to rdf-cache
+                Resource resource = rdfCache.createResource(uri);
+                Resource typeResource = rdfCache.createResource(typeList.get(indexTypeList));
+                resource.addProperty(RDF.type, typeResource);
+                resource.addLiteral(RDFS.label, valueList.get(indexValueList));
+
+                if (!completeListAdded) {
+                    if (constantsTable.containsKey(typeList.get(indexTypeList))) {
+                        //add only one element if this is not already present
+                        if (!constantsTable.get(typeList.get(indexTypeList)).contains(valueList.get(indexValueList))){
+                            constantsTable.get(typeList.get(indexTypeList)).add(valueList.get(indexValueList));
+                        }
+                    } else {
+                        //if constantsTable doesn't contain key:type -> add all the list (only once)
+                        completeListAdded = true;
+                        constantsTable.put(typeList.get(indexTypeList), valueList);
+                    }
+                }
+            }
+        }
     }
 
 }

@@ -77,6 +77,8 @@ public class Endpoint {
 
     public static final String JSON_ARRAY_ROOT = "jsonArrayRoot";
 
+    public static final String LANG_DBPEDIA = "en";
+
 
     @javax.ws.rs.core.Context
     public ServletContext context;
