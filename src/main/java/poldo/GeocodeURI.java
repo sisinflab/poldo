@@ -40,7 +40,7 @@ public class GeocodeURI implements FindURI {
         String longitude="";
 
 
-        // .get(0) and .get(1) contains latitude and longitude values
+        // .get(0) and .get(1) contain latitude and longitude values
         String propertyString0 = selectSamePropertyAs(propertyListResIsSub.get(0), model);
         String propertyString1 = selectSamePropertyAs(propertyListResIsSub.get(1), model);
 
