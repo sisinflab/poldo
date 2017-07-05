@@ -105,7 +105,7 @@ public class Endpoint {
 
         //return jsonResponse.toString();
 
-        String jsonResponse = queryPlanner.solveQuery(model, queryString);
+        String jsonResponse = queryPlanner.solveQuery(model, queryString, context);
         return jsonResponse;
     }
 
@@ -133,7 +133,7 @@ public class Endpoint {
 
         //return jsonResponse.toString();
 
-        String jsonResponse = queryPlanner.solveQuery(model, queryString);
+        String jsonResponse = queryPlanner.solveQuery(model, queryString, context);
         return jsonResponse;
     }
 

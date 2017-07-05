@@ -12,12 +12,11 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import javax.servlet.ServletContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.Map.Entry;
@@ -66,7 +65,12 @@ public class QueryPlanner {
     boolean timeout;
     boolean limitReached;
 
-    public String solveQuery(Model m, String queryString) throws Exception {
+    ServletContext context;
+
+
+    public String solveQuery(Model m, String queryString, ServletContext c) throws Exception {
+
+        context = c;
 
         resourceIndex = 0;
         customResourceIndex = 0;
@@ -106,15 +110,78 @@ public class QueryPlanner {
 
         //TODO insert here a dataset of constants
 
+        //load configuration files
+        Properties prop = new Properties();
+        InputStream input = null;
+        String[] services = null;
+        ArrayList<LabelTypeService> labelTypeServices = new ArrayList<>();
+        try {
+
+            input = new FileInputStream(context.getRealPath("/config.properties"));
+
+            // load properties file
+            prop.load(input);
+
+            services = prop.getProperty("services").split(",");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (services != null) {
+            for (int i = 0; i < services.length; i++) {
+                Properties serviceProp = new Properties();
+                InputStream serviceInput = null;
+
+                try {
+
+                    serviceInput = new FileInputStream(context.getRealPath("/"+services[i] + ".properties"));
+
+                    // load a properties file
+                    serviceProp.load(serviceInput);
+
+                    LabelTypeService labelTypeService = new LabelTypeService();
+                    labelTypeService.setEndpoint(serviceProp.getProperty("endpoint"));
+                    labelTypeService.setContains(serviceProp.getProperty("contains"));
+                    labelTypeService.setPlaceholder(serviceProp.getProperty("placeholder"));
+                    labelTypeService.setQueryString(serviceProp.getProperty("query"));
+
+                    labelTypeServices.add(labelTypeService);
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } finally {
+                    if (input != null) {
+                        try {
+                            input.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+
         //extract constants from graph pattern
         for (int index = 0; index < patternList.size(); index++) {
 
-            //get labels from DBPedia
-            if (isDBPediaUri(patternList.get(index).getSubject())) {
-                writeConstantsLabelAndTypeFromDBPedia (patternList.get(index).getSubject());
-            }
-            if (isDBPediaUri(patternList.get(index).getObject())) {
-                writeConstantsLabelAndTypeFromDBPedia (patternList.get(index).getObject());
+
+            //get labels from config services
+            for (int indexService = 0; indexService < labelTypeServices.size(); indexService++) {
+                if (patternList.get(index).getSubject().contains(labelTypeServices.get(indexService).getContains())){
+                    writeConstantsLabelAndTypeFromService(patternList.get(index).getSubject(), labelTypeServices.get(indexService));
+                }
+                if (patternList.get(index).getObject().contains(labelTypeServices.get(indexService).getContains())){
+                    writeConstantsLabelAndTypeFromService(patternList.get(index).getObject(), labelTypeServices.get(indexService));
+                }
             }
 
 
@@ -280,7 +347,7 @@ public class QueryPlanner {
 
         ArrayList<String> freeSources = getFreeSources();
 
-        for (int indexSource=0; indexSource<freeSources.size(); indexSource++){
+        for (int indexSource = 0; indexSource < freeSources.size(); indexSource++) {
 
             String serviceString = freeSources.get(indexSource);
 
@@ -297,8 +364,8 @@ public class QueryPlanner {
             try {
                 response = http.sendGet(url);
 
-                if (response.startsWith("[")){
-                    response="{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : "+response+" }";
+                if (response.startsWith("[")) {
+                    response = "{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : " + response + " }";
                 }
 
                 ArrayList<String> outputURIList = getOutputsURIOfService(serviceString);
@@ -556,8 +623,8 @@ public class QueryPlanner {
 
                     response = http.sendGet(getUrlOfService(serviceString), params);
 
-                    if (response.startsWith("[")){
-                        response="{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : "+response+" }";
+                    if (response.startsWith("[")) {
+                        response = "{ \"" + Endpoint.JSON_ARRAY_ROOT + "\" : " + response + " }";
                     }
 
                     ArrayList<String> outputURIList = getOutputsURIOfService(serviceString);
@@ -678,7 +745,7 @@ public class QueryPlanner {
                                 if (isSamePropertyAs(property)) {
 
 									/*
-									 *  argoments di addPropertyToRdfCache:
+                                     *  argoments di addPropertyToRdfCache:
 									 *  1: input label in rdfCache
 									 *  2: input class in rdfCache
 									 *  3: uri of property  ->  selectSameAs
@@ -1503,7 +1570,7 @@ public class QueryPlanner {
      * @param type
      * @param mappingURI
      * @param propertyListResIsSub List of property with customResource as subject
-     * @param propertyListResIsOb   List of property with customResource as object
+     * @param propertyListResIsOb  List of property with customResource as object
      * @param valuesArrayResIsSub  key: index of property (in propertyListResIsSub) and value extracted from xml or json
      * @param valuesArrayResIsOb   key: index of property (in propertyListResIsOb) and value extracted from xml or json
      * @param inputIsSubject       key: uri of property and value of input
@@ -1516,7 +1583,7 @@ public class QueryPlanner {
                                       ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
                                       HashMap<String, String> inputIsSubject,
                                       HashMap<String, String> inputIsObject,
-                                      int key ) {
+                                      int key) {
 
         if (label.startsWith("\"")) {
             label = label.substring(1, label.length() - 1);
@@ -1538,7 +1605,7 @@ public class QueryPlanner {
 
 
             //mappingURI is null for resources extracted from query graph pattern
-            if(mappingURI!=null) {
+            if (mappingURI != null) {
                 //check if there is findUri property
                 String queryStrMapping = "select ?classFindURI where { "
                         + "<" + mappingURI + "> <" + Endpoint.FIND_URI + "> ?classFindURI "
@@ -1759,6 +1826,7 @@ public class QueryPlanner {
 
     /**
      * Select sources with no inputs
+     *
      * @return
      */
     public ArrayList<String> getFreeSources() {
@@ -1886,8 +1954,8 @@ public class QueryPlanner {
                 + "?obj <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
                 + "?sub ?prop ?obj } "
                 + "UNION"
-                + "{ ?sub <" + Endpoint.IS_RELATED_TO_SERVICE +"> <" + serviceString + "> . "
-                + "?prop <" + RDF.type +"> <" + OWL.DatatypeProperty + "> . "
+                + "{ ?sub <" + Endpoint.IS_RELATED_TO_SERVICE + "> <" + serviceString + "> . "
+                + "?prop <" + RDF.type + "> <" + OWL.DatatypeProperty + "> . "
                 + "?sub ?prop ?obj } "
                 + "}";
 
@@ -2067,7 +2135,7 @@ public class QueryPlanner {
 
     public String getUriInRdfCache(String label, String type) {
 
-        String uri=null;
+        String uri = null;
 
         if (label != null) {
             if (label.startsWith("\"")) {
@@ -2495,38 +2563,28 @@ public class QueryPlanner {
     }
 
 
-    public boolean isDBPediaUri(String uri) {
-        return uri.contains("http://dbpedia.org/");
-    }
-
-    public void writeConstantsLabelAndTypeFromDBPedia (String uri) {
+    public void writeConstantsLabelAndTypeFromService (String uri, LabelTypeService labelTypeService) {
         List<String> typeList = new ArrayList<>();
         List<String> valueList = new ArrayList<>();
 
-        String queryString = "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> " +
-                "SELECT ?label ?type " +
-                "WHERE { " +
-                "<"+uri+"> rdfs:label ?label . " +
-                "<"+uri+"> a ?type " +
-                "FILTER(LANG(?label) = \"\" || LANGMATCHES(LANG(?label), \""+Endpoint.LANG_DBPEDIA+"\")) " +
-                "}";
+        String queryString = labelTypeService.getQueryString().replaceAll(labelTypeService.getPlaceholder(), uri);
 
         Query query = QueryFactory.create(queryString);
-        QueryExecution qexec = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        QueryExecution qexec = QueryExecutionFactory.sparqlService(labelTypeService.getEndpoint(), query);
         ResultSet result = qexec.execSelect();
 
         //add all results to values and types list
-        for (; result.hasNext() ;){
+        for (; result.hasNext(); ) {
             QuerySolution solution = result.nextSolution();
             String label = solution.getLiteral("label").toString();
             String type = solution.getResource("type").toString();
-            if (label.contains("@")){
+            if (label.contains("@")) {
                 label = label.substring(0, label.indexOf("@"));
             }
-            if (!valueList.contains(label)){
+            if (!valueList.contains(label)) {
                 valueList.add(label);
             }
-            if (!typeList.contains(type)){
+            if (!typeList.contains(type)) {
                 typeList.add(type);
             }
         }
@@ -2545,7 +2603,7 @@ public class QueryPlanner {
                 if (!completeListAdded) {
                     if (constantsTable.containsKey(typeList.get(indexTypeList))) {
                         //add only one element if this is not already present
-                        if (!constantsTable.get(typeList.get(indexTypeList)).contains(valueList.get(indexValueList))){
+                        if (!constantsTable.get(typeList.get(indexTypeList)).contains(valueList.get(indexValueList))) {
                             constantsTable.get(typeList.get(indexTypeList)).add(valueList.get(indexValueList));
                         }
                     } else {
