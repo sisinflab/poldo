@@ -1,7 +1,7 @@
 # PoLDo
 A tool for exposing the deep Web in the Linked Data cloud.
 
-With PoLDo you can run SPARQL query over non-RDF data; 
+With PoLDo you can run SPARQL queries over non-RDF data; 
 in order to do this, you have to provide a mapping file for describing one or more external API services.
 
 PoLDo mapping file allows the designer to create a link between URIs contained in the SPARQL queries 
