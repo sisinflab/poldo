@@ -1259,7 +1259,7 @@ public class QueryPlanner {
                     if (isSamePropertyAs(property.getURI())) {
                         String objectString = "";
                         // DatatypeProperty case
-                        if (key == -1 && inputIsObject.size() > i && objectValues.get(i) == "inputIsObject" ) {
+                        if (key == -1 && inputIsObject.size() > i && objectValues.get(i).equals("inputIsObject")) {
                             objectString = inputIsObject.get(property.getURI()).replaceAll("\"", "");
                         } else {
                             objectString = objectValues.get(i).replaceAll("\"", "");
