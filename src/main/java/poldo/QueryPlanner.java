@@ -1088,7 +1088,7 @@ public class QueryPlanner {
 
                     //list.add(params.get(getLabelOfResource(objectURI)));
 
-                    //insert an empty list - use inputIsObject to store value
+                    list.add("inputIsObject");
                     valuesMap.put(-1, list);
 
                     inputIsObject.put(propertyListResIsSub.get(propertyIndex), params.get(getParamNameOfResource(objectURI)));
@@ -1150,7 +1150,7 @@ public class QueryPlanner {
 
                     ArrayList<String> list = new ArrayList<String>();
 
-                    //list.add(params.get(getLabelOfResource(objectURI)));
+                    list.add("inputIsObject");
 
                     //insert an empty list - use inputIsObject to store value
                     valuesMap.put(-1, list);
@@ -1228,7 +1228,7 @@ public class QueryPlanner {
 
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
 
-                if (key != -1) {
+                //if (key != -1) {
                     addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
                             propertyListResIsSub,    // List of properties with customResource as subject
                             propertyListResIsOb,    // List of properties with customResource as object
@@ -1238,7 +1238,7 @@ public class QueryPlanner {
                             inputIsObject,            // key: uri of property and value of input
                             key
                     );
-                }
+                //}
 
                 List<String> objectValues = valuesArrayResIsSub.get(indexLista).get(key);
 
@@ -1257,8 +1257,14 @@ public class QueryPlanner {
                     Resource resourceObj = rdfCache.createResource(objectURIrdfCache);
 
                     if (isSamePropertyAs(property.getURI())) {
+                        String objectString = "";
                         // DatatypeProperty case
-                        resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(property.getURI()).get(0)), objectValues.get(i).replaceAll("\"", ""));
+                        if (key == -1 && inputIsObject.size() > i && objectValues.get(i) == "inputIsObject" ) {
+                            objectString = inputIsObject.get(property.getURI()).replaceAll("\"", "");
+                        } else {
+                            objectString = objectValues.get(i).replaceAll("\"", "");
+                        }
+                        resourceSubj.addLiteral(rdfCache.createProperty(selectSamePropertyAs(property.getURI()).get(0)), objectString);
                     } else {
                         // normal case
                         resourceSubj.addProperty(property, resourceObj);
