@@ -66,12 +66,12 @@ public class Endpoint {
     public static final String RESOURCE_URI_STRING = "resource";
 
     public static final String LI_PROPERTY = RDF.uri + "li";
-    public static final String SAME_PROPERTY_AS = OWL.NS + "samePropertyAs";
+    public static final String SAME_PROPERTY_AS = OWL.NS + "equivalentProperty";
 
     public static final long TIMEOUT_DELAY = 5000;	//5000 = 5s
 
     //put files in the web directory
-    public static final String MAPPING_PATH = "/default-mapping.ttl";
+    public static final String MAPPING_PATH = "/apollon.ttl";
     public static final String LOV_PATH = "/lov.ttl";
     public static final String DBO_PATH = "/dbpedia_2016-04-range-domain.nt";
 

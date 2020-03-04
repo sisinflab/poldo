@@ -1,0 +1,95 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix poldo: <http://sisinflab.poliba.it/semanticweb/lod/poldo/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-day
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/ns/sosa/resultTime> ;
+        rdfs:label                "day" ;
+        poldo:content             "String" ;
+        poldo:hasStructure        "JSON_Data" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-value
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://purl.oclc.org/NET/ssnx/ssn#hasValue> ;
+        rdfs:label                "value" ;
+        poldo:content             "String" ;
+        poldo:hasStructure        "JSON_Data" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-resource3
+        a       poldo:customResource ;
+        poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-endDate
+                <http://www.w3.org/2001/XMLSchema#string>;
+        poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-startDate
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg
+        poldo:hasInput     poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-longitude , poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-endDate , poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-startDate , poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-latitude ;
+        poldo:hasLanguage  "json" ;
+        poldo:hasOutput    poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-root ;
+        poldo:hasUrl       "http://pilot.apollon-project.it:8080/apollon-console/api/service/uv/dailyavg" .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-resource1
+        a       poldo:customResource ;
+        poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-latitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-longitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://www.w3.org/ns/sosa/hasFeatureOfInterest>
+                poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-resource2 .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-endDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalFinishes> ;
+        poldo:isRequired    true ;
+        poldo:paramName     "endDate" .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-startDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalStarts> ;
+        poldo:isRequired    true ;
+        poldo:paramName     "startDate" .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-root
+        a                         rdf:Bag ;
+        rdf:li                    poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-day , poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-value , poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-range ;
+        rdfs:label                "value" ;
+        poldo:hasStructure        "JSON_Array" ;
+        poldo:isRelatedToService  poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-longitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#long> ;
+        poldo:isRequired    true ;
+        poldo:paramName     "longitude" .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-latitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ;
+        poldo:isRequired    true ;
+        poldo:paramName     "latitude" .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-resource2
+        a       poldo:customResource ;
+       poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-value
+                <http://www.w3.org/2001/XMLSchema#string>;
+       poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-range
+                <http://www.w3.org/2001/XMLSchema#string>;
+       poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-day
+                <http://www.w3.org/2001/XMLSchema#string>;
+       <http://www.w3.org/ns/sosa/phenomenonTime>
+                poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-resource3 .
+
+poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-value-range
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/ns/sosa/hasSimpleResult> ;
+        rdfs:label                "range" ;
+        poldo:content             "String" ;
+        poldo:hasStructure        "JSON_Data" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg .
