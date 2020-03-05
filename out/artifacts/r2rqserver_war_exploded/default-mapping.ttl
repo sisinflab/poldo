@@ -1,0 +1,394 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix poldo: <http://sisinflab.poliba.it/semanticweb/lod/poldo/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row>
+        a                         rdf:Bag ;
+        rdf:li                    <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/K> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sondaggio> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/A> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Crav_EDO> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/id> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/kn> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/LIavLImax-LImin> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/USCS> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/zmedia> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/AGI> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PI> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ck_Permeameter> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Csav_EDO> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_TRX> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_Penetrometer> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Est> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Nord> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/SF> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_DS> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/CF> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_TRX> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ck_EDO> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Gs> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sp> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PROFONDITA> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_TRX> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_DS> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/quotaboccaforo> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ccav> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/_v0> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/OCR> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/MF> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/wL> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/GF> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campione> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/e0ave0min-e0max> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_DS> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campagnaGEOGNOSTICA> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_VT> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/verticale> , <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_TRX> ;
+        rdfs:label                "row" ;
+        poldo:isRelatedToService  poldo:xml-com .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_VT>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cu_VT" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasResistenzaVT> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Csav_EDO>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Csav_EDO" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceRigonfiamentoEdometrico> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ccav>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Ccav" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceCompressioneEdometrico> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campione>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "campione" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#campione> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/GF>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "GF" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasGF> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/LIavLImax-LImin>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "LIavLImax-LImin" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceLiquidita> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/AGI>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "AGI" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#isAGI> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Nord>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Nord" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#nord> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_Penetrometer>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cu_Penetrometer" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasResistenzaPT> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cu" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasResistenzaCPT> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/_v0>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "_v0" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasTensioneLitostaticaEfficace> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/e0ave0min-e0max>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "e0ave0min-e0max" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceVuotiSito> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Gs>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Gs" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasPesoSpecificoGrani> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/A>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "A" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceAttivita> .
+
+poldo:xml-com-root  a             rdf:Bag ;
+        rdf:li                    <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row> ;
+        rdfs:label                "root" ;
+        poldo:isRelatedToService  poldo:xml-com .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_TRX>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cu_TRX" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasResistenzaTRX> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/wL>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "wL" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasLimiteLiquido> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sondaggio>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "sondaggio" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#sondaggio> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_DS>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "fcs_DS" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasAngoloCriticoTD> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/verticale>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "verticale" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#verticale> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/MF>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "MF" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasMF> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_TRX>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cp_TRX" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasCoesioneTRX> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/id>
+        a                         <http://sisinflab.poliba.it/public/data/measures#Measure> ;
+        rdfs:label                "id" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campagnaGEOGNOSTICA> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sondaggio> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/verticale> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campione> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Est> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Nord> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/quotaboccaforo> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PROFONDITA> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/zmedia> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/GF> <http://www.w3.org/2001/XMLSchema#double> ;        
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/SF> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/MF> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/CF> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/kn> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/_v0> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/e0ave0min-e0max> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/LIavLImax-LImin> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sp> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/OCR> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Gs> <http://www.w3.org/2001/XMLSchema#double> ;        
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/wL> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PI> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/A> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/USCS> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/AGI> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_TRX> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_VT> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cu_Penetrometer> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_TRX> <http://www.w3.org/2001/XMLSchema#double> ;        
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_TRX> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_TRX> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_DS> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_DS> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_DS> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Crav_EDO> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ccav> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Csav_EDO> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/K> <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ck_Permeameter> <http://www.w3.org/2001/XMLSchema#double> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ck_EDO>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Ck_EDO" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasCoefficienteVariazionePermeabilita> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/K>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "K" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasPermeabilitaDesunta> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/campagnaGEOGNOSTICA>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "campagnaGEOGNOSTICA" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#campaign> .
+
+poldo:xml-com  poldo:hasLanguage  "xml" ;
+        poldo:hasOutput    poldo:xml-com-root ;
+        poldo:hasUrl       "http://193.204.59.23:10059/output-completo.xml" .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Est>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Est" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#est> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PI>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "PI" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndicePlasticita> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_TRX>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "fp_TRX" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasAngoloPiccoTRX> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/USCS>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "USCS" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#isUSCS> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/cp_DS>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "cp_DS" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasCoesioneTD> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/SF>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "SF" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasSF> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Crav_EDO>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Crav_EDO" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasIndiceRicompressioneEdometrico> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/Ck_Permeameter>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "Ck_Permeameter" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasCoefficienteVariaizonePermeabilitaDesuntaPermeametro> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/PROFONDITA>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "PROFONDITA" ;
+        poldo:content             "String" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#deepness> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/kn>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "kn" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasPesoPerVolume> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/sp>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "sp" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasTensionePreconsolidazione> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/OCR>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "OCR" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasGradoSovraconsolidazione> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/quotaboccaforo>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "quotaboccaforo" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#boccaforo> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fcs_TRX>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "fcs_TRX" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasAngoloCriticoTRX> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/zmedia>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "zmedia" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#z_avg> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/fp_DS>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "fp_DS" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasAngoloCriticoTD> .
+
+<http://sisinflab.poliba.it/semanticweb/lod/poldo/xml-com-root/row/CF>
+        a                         owl:DatatypeProperty ;
+        rdfs:label                "CF" ;
+        poldo:content             "Number" ;
+        poldo:isData              true ;
+        poldo:isRelatedToService  poldo:xml-com ;
+        owl:samePropertyAs        <http://sisinflab.poliba.it/public/data/measures#hasCF> .

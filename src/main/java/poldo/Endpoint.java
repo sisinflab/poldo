@@ -71,7 +71,7 @@ public class Endpoint {
     public static final long TIMEOUT_DELAY = 5000;	//5000 = 5s
 
     //put files in the web directory
-    public static final String MAPPING_PATH = "/apollon.ttl";
+    public static final String MAPPING_PATH = "apollon.ttl";
     public static final String LOV_PATH = "/lov.ttl";
     public static final String DBO_PATH = "/dbpedia_2016-04-range-domain.nt";
 

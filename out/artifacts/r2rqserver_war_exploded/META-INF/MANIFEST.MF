@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: ironman
+Build-Jdk: 11.0.4
+Main-Class: poldo.Endpoint
+
