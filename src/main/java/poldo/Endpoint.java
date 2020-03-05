@@ -71,9 +71,9 @@ public class Endpoint {
     public static final long TIMEOUT_DELAY = 5000;	//5000 = 5s
 
     //put files in the web directory
-    public static final String MAPPING_PATH = "apollon.ttl";
-    public static final String LOV_PATH = "/lov.ttl";
-    public static final String DBO_PATH = "/dbpedia_2016-04-range-domain.nt";
+    public static final String MAPPING_PATH = "apollon-uv-dailyavg.ttl";
+    public static final String LOV_PATH = "lov.ttl";
+    public static final String DBO_PATH = "dbpedia_2016-04-range-domain.nt";
 
     public static final String JSON_ARRAY_ROOT = "jsonArrayRoot";
 
@@ -95,6 +95,35 @@ public class Endpoint {
 
         //Add header to allow cross-domain requests
         response.setHeader("Access-Control-Allow-Origin", "*");
+
+        Model model;
+        model = ModelFactory.createDefaultModel();
+        model.read(new ByteArrayInputStream(modelString.getBytes()), null, "TTL");
+
+        QueryPlanner queryPlanner = new QueryPlanner();
+        //JSONObject jsonResponse = queryPlanner.solveQuery(model, queryString);
+
+        //return jsonResponse.toString();
+
+        String jsonResponse = queryPlanner.solveQuery(model, queryString, context);
+        return jsonResponse;
+    }
+
+    @POST
+    @Path("/querywithmappingfile")
+    @Produces (MediaType.APPLICATION_JSON)
+    public String executeQueryWithMappingFile(@Context HttpHeaders header,
+                                          @Context HttpServletResponse response,
+                                          @FormParam("query") String queryString,
+                                          @FormParam("modelName") String modelFileName) throws Exception {
+
+        //Add header to allow cross-domain requests
+        response.setHeader("Access-Control-Allow-Origin", "*");
+
+
+        File fileModel = new File(context.getRealPath(modelFileName+".ttl"));
+        byte[] encModel = Files.readAllBytes(Paths.get(fileModel.getPath()));
+        String modelString = new String (encModel);
 
         Model model;
         model = ModelFactory.createDefaultModel();

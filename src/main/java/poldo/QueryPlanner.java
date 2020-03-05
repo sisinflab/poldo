@@ -2234,20 +2234,36 @@ public class QueryPlanner {
     }
 
     public String getUrlOfService(String service) {
-        String queryStr = "select ?url where { "
-                + "<" + service + "> <" + Endpoint.URL_PROPERTY + "> ?url }";
 
-        Query query = QueryFactory.create(queryStr);
-        QueryExecution qexec = QueryExecutionFactory.create(query, model);
-        ResultSet result = qexec.execSelect();
+        try{
+            Properties prop = new Properties();
+            FileInputStream input = new FileInputStream(context.getRealPath("/config.properties"));
 
-        if (result.hasNext()) {
-            QuerySolution solution = result.nextSolution();
-            Literal url = solution.getLiteral("url");
-            return url.toString();
-        } else {
+            // load properties file
+            prop.load(input);
+
+            String basePathuri = prop.getProperty("basepathuri");
+
+            String queryStr = "select ?url where { "
+                    + "<" + service + "> <" + Endpoint.URL_PROPERTY + "> ?url }";
+
+            Query query = QueryFactory.create(queryStr);
+            QueryExecution qexec = QueryExecutionFactory.create(query, model);
+            ResultSet result = qexec.execSelect();
+
+            if (result.hasNext()) {
+                QuerySolution solution = result.nextSolution();
+                Literal url = solution.getLiteral("url");
+                return url.toString().replace("{{basepath}}", basePathuri);
+            } else {
+                return null;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
+
+
     }
 
     public String getLabelOfResource(String resourceURI) {

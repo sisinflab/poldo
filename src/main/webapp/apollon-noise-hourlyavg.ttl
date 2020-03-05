@@ -1,0 +1,150 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix apollon: <http://sisinflab.poliba.it/semanticweb/lod/poldo/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+
+
+# start mapping servizio noise-hourlyavg
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg
+        apollon:hasInput     apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-longitude ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-latitude ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDb ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endHour ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startHour ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDb ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-harvest ;
+        apollon:hasLanguage  "json" ;
+        apollon:hasOutput    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-root ;
+        apollon:hasUrl       "{{basepath}}/api/service/noise/hourlyavg" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-latitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "latitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startHour
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalAfter> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "startHour" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-harvest
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    schema:name ;
+        apollon:isRequired    true ;
+        apollon:paramName  "harvest" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDb
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    schema:minValue ;
+        apollon:isRequired    true ;
+        apollon:paramName  "startDb" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-value
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://purl.oclc.org/NET/ssnx/ssn#hasValue> ;
+        rdfs:label                "value" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-longitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#long> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "longitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-hour
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/ns/sosa/resultTime> ;
+        rdfs:label                "hour" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDb
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    schema:maxValue ;
+        apollon:isRequired    true ;
+        apollon:paramName  "endDb" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-root
+        a                         rdf:Bag ;
+        rdf:li                    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-value ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-hour ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-uom ;
+        rdfs:label                "value" ;
+        apollon:hasStructure        "JSON_Array" ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-uom
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.ontology-of-units-of-measure.org/resource/om-2/hasUnit> ;
+        rdfs:label                "uom" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endHour
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalBefore> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "endHour" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalFinishes> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "endDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalStarts> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "startDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-noise-hourlyavg-resource1
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-latitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-longitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://www.w3.org/ns/sosa/hasFeatureOfInterest>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource2 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource2
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-value
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-range
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-value-hour
+                <http://www.w3.org/2001/XMLSchema#string>;
+        <http://www.w3.org/ns/sosa/phenomenonTime>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource3 ;
+        <http://www.w3.org/ns/ssn/systems/hasOperatingRange>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource4 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource3
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDate
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDate
+                <http://www.w3.org/2001/XMLSchema#string> .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-resource4
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-harvest
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-startDb
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-hourlyavg-endDb
+                <http://www.w3.org/2001/XMLSchema#string>.
+# end mapping servizio noise-hourlyavg
