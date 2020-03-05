@@ -33,7 +33,6 @@
                     <execution>
                         <phase>package</phase>
                         <configuration>
-                            <attachClasses>true</attachClasses>
                             <webXml>${basedir}/web/WEB-INF/web.xml</webXml>
                         </configuration>
                         <goals>
