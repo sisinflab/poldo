@@ -1,3 +1,6 @@
 /target/
 /out/
 /.idea/
+/src/main/webapp/WEB-INF/lib/
+/src/main/webapp/WEB-INF/classes/
+r2rqserver.iml

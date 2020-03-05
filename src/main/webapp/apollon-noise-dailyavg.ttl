@@ -16,8 +16,7 @@ apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg
         a                         rdf:Bag ;
         rdf:li                    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-uom ,
                                   apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-value ,
-                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-day ,
-                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-range ;
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-day ;
         rdfs:label                "value" ;
         apollon:hasStructure        "JSON_Array" ;
         apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg .
@@ -62,15 +61,6 @@ apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg
         a                         owl:DatatypeProperty ;
         owl:equivalentProperty    <http://www.ontology-of-units-of-measure.org/resource/om-2/hasUnit> ;
         rdfs:label                "uom" ;
-        apollon:content             "String" ;
-        apollon:hasStructure        "JSON_Data" ;
-        apollon:isData              true ;
-        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg .
-
-apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-range
-        a                         owl:DatatypeProperty ;
-        owl:equivalentProperty    <http://schema.org/rangeIncludes> ;
-        rdfs:label                "range" ;
         apollon:content             "String" ;
         apollon:hasStructure        "JSON_Data" ;
         apollon:isData              true ;
@@ -132,8 +122,6 @@ apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg
 apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-resource2
         a       apollon:customResource ;
         apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-value
-                <http://www.w3.org/2001/XMLSchema#string>;
-        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-range
                 <http://www.w3.org/2001/XMLSchema#string>;
         apollon:pilot-apollon-project-it-8080-apollon-console-api-service-noise-dailyavg-value-day
                 <http://www.w3.org/2001/XMLSchema#string>;

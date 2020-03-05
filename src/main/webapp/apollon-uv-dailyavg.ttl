@@ -31,7 +31,10 @@ apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-re
                 <http://www.w3.org/2001/XMLSchema#string> .
 
 apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg
-        apollon:hasInput     apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-longitude , apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-endDate , apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-startDate , apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-latitude ;
+        apollon:hasInput     apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-longitude ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-endDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-startDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-latitude ;
         apollon:hasLanguage  "json" ;
         apollon:hasOutput    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-uv-dailyavg-root ;
         apollon:hasUrl       "{{basepath}}/api/service/uv/dailyavg" .
