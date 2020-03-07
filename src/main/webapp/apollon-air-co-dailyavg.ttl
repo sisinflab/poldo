@@ -1,0 +1,116 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix apollon: <http://sisinflab.poliba.it/semanticweb/lod/poldo/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+
+
+# start mapping servizio air-CO-dailyavg
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg
+        apollon:hasInput     apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-longitude ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-endDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-startDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-latitude ;
+        apollon:hasLanguage  "json" ;
+        apollon:hasOutput    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-root ;
+        apollon:hasUrl       "{{basepath}}/api/service/air/CO/dailyavg" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-latitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "latitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-value
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://purl.oclc.org/NET/ssnx/ssn#hasValue> ;
+        rdfs:label                "value" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-startDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalStarts> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "startDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-endDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalFinishes> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "endDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-range
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://schema.org/rangeIncludes> ;
+        rdfs:label                "range" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-longitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#long> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "longitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-day
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/ns/sosa/resultTime> ;
+        rdfs:label                "day" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-root
+        a                         rdf:Bag ;
+        rdf:li                    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-uom ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-value ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-day ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-range ;
+        rdfs:label                "value" ;
+        apollon:hasStructure        "JSON_Array" ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-uom
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.ontology-of-units-of-measure.org/resource/om-2/hasUnit> ;
+        rdfs:label                "uom" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-service-air-CO-dailyavg-resource1
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-latitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-longitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://www.w3.org/ns/sosa/hasFeatureOfInterest>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-resource2 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-resource2
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-value
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-range
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-day
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-value-uom
+                <http://www.w3.org/2001/XMLSchema#string>;
+        <http://www.w3.org/ns/sosa/phenomenonTime>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-resource3 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-resource3
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-endDate
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-CO-dailyavg-startDate
+                <http://www.w3.org/2001/XMLSchema#string> .
+# end mapping servizio air-CO-dailyavg

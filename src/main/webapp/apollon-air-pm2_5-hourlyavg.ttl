@@ -1,0 +1,124 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix apollon: <http://sisinflab.poliba.it/semanticweb/lod/poldo/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+
+# start mapping servizio air-PM2_5-hourlyavg
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-startDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalStarts> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "startDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-value
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://purl.oclc.org/NET/ssnx/ssn#hasValue> ;
+        rdfs:label                "value" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-longitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#long> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "longitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-range
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://schema.org/rangeIncludes> ;
+        rdfs:label                "range" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-endDate
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2006/time#intervalFinishes> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "endDate" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-latitude
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ;
+        apollon:isRequired    true ;
+        apollon:paramName  "latitude" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-root
+        a                         rdf:Bag ;
+        rdf:li                    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-uom ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-hour ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-value ,
+                                  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-range ;
+        rdfs:label                "value" ;
+        apollon:hasStructure        "JSON_Array" ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-harvest
+        a                   owl:DatatypeProperty ;
+        owl:equivalentProperty    schema:name ;
+        apollon:isRequired    true ;
+        apollon:paramName  "harvest" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-uom
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.ontology-of-units-of-measure.org/resource/om-2/hasUnit> ;
+        rdfs:label                "uom" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg
+        apollon:hasInput     apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-longitude ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-endDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-startDate ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-harvest ,
+                             apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-latitude ;
+        apollon:hasLanguage  "json" ;
+        apollon:hasOutput    apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-root ;
+        apollon:hasUrl       "{{basepath}}/api/service/air/PM2_5/hourlyavg" .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-hour
+        a                         owl:DatatypeProperty ;
+        owl:equivalentProperty    <http://www.w3.org/ns/sosa/resultTime> ;
+        rdfs:label                "hour" ;
+        apollon:content             "String" ;
+        apollon:hasStructure        "JSON_Data" ;
+        apollon:isData              true ;
+        apollon:isRelatedToService  apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-service-air-PM2_5-hourlyavg-resource1
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-latitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-longitude
+                <http://www.w3.org/2001/XMLSchema#double> ;
+        <http://www.w3.org/ns/sosa/hasFeatureOfInterest>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-resource2 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-resource2
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-value
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-range
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-hour
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-value-uom
+                <http://www.w3.org/2001/XMLSchema#string>;
+        <http://www.w3.org/ns/sosa/phenomenonTime>
+                apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-resource3 .
+
+apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-resource3
+        a       apollon:customResource ;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-harvest
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-endDate
+                <http://www.w3.org/2001/XMLSchema#string>;
+        apollon:pilot-apollon-project-it-8080-apollon-console-api-service-air-PM2_5-hourlyavg-startDate
+                <http://www.w3.org/2001/XMLSchema#string> .
+# end mapping servizio air-PM2_5-hourlyavg
