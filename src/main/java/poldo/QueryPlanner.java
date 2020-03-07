@@ -744,15 +744,15 @@ public class QueryPlanner {
                             if (isDatatypeProperty(property)) {
                                 if (isSamePropertyAs(property)) {
 
-									/*
+                                    /*
                                      *  argoments di addPropertyToRdfCache:
-									 *  1: input label in rdfCache
-									 *  2: input class in rdfCache
-									 *  3: uri of property  ->  selectSameAs
-									 *  4: object uri in mapping file -> property uri in case of datatypeProp
-									 *  5: reply of service
-									 *  6: language (XML or JSON)
-									 */
+                                     *  1: input label in rdfCache
+                                     *  2: input class in rdfCache
+                                     *  3: uri of property  ->  selectSameAs
+                                     *  4: object uri in mapping file -> property uri in case of datatypeProp
+                                     *  5: reply of service
+                                     *  6: language (XML or JSON)
+                                     */
 
                                     addPropertyToRdfCacheInputAsSubject(params.get(getParamNameOfResource(inputURI)),
                                             getTypeOfResource(inputURI),
@@ -766,15 +766,15 @@ public class QueryPlanner {
                                 objectOfProperty = getObjectURIOfPropertyOfResource(inputURI, property);
                                 for (int indexObject = 0; indexObject < objectOfProperty.size(); indexObject++) {
                                     String object = objectOfProperty.get(indexObject);
-									/*
-									 *  argoments of addPropertyToRdfCache:
-									 *  1: input label in rdfCache
-									 *  2: input class in rdfCache
-									 *  3: uri of property  ->  selectSameAs
-									 *  4: object uri in mapping file -> property uri in case of datatypeProp
-									 *  5: reply of service
-									 *  6: language (XML or JSON)
-									 */
+                                    /*
+                                     *  argoments of addPropertyToRdfCache:
+                                     *  1: input label in rdfCache
+                                     *  2: input class in rdfCache
+                                     *  3: uri of property  ->  selectSameAs
+                                     *  4: object uri in mapping file -> property uri in case of datatypeProp
+                                     *  5: reply of service
+                                     *  6: language (XML or JSON)
+                                     */
 
                                     addPropertyToRdfCacheInputAsSubject(params.get(getParamNameOfResource(inputURI)),
                                             getTypeOfResource(inputURI),
@@ -796,15 +796,15 @@ public class QueryPlanner {
                             subjectOfProperty = getSubjectURIOfPropertyOfResource(inputURI, property);
                             for (int indexSubject = 0; indexSubject < subjectOfProperty.size(); indexSubject++) {
                                 String subject = subjectOfProperty.get(indexSubject);
-								/*
-								 *  argoments of addPropertyToRdfCacheAsObject:
-								 *  1: subject uri in mapping file
-								 *  2: property uri
-								 *  3: input label in rdfCache
-								 *  4: input class in rdfCache
-							 	 *  5: reply of service
-								 *  6: language (XML or JSON)
-								 */
+                                /*
+                                 *  argoments of addPropertyToRdfCacheAsObject:
+                                 *  1: subject uri in mapping file
+                                 *  2: property uri
+                                 *  3: input label in rdfCache
+                                 *  4: input class in rdfCache
+                                 *  5: reply of service
+                                 *  6: language (XML or JSON)
+                                 */
 
                                 addPropertyToRdfCacheInputAsObject(subject,
                                         property,
@@ -821,15 +821,15 @@ public class QueryPlanner {
                         for (int indexSubject = 0; indexSubject < subjectOfProperty.size(); indexSubject++) {
 
                             String subject = subjectOfProperty.get(indexSubject);
-								/*
-								 *  argoments of addPropertyToRdfCacheAsObject:
-								 *  1: subject uri in mapping file
-								 *  2: property uri
-								 *  3: input label in rdfCache
-								 *  4: input class in rdfCache
-							 	 *  5: reply of service
-								 *  6: language (XML or JSON)
-								 */
+                            /*
+                             *  argoments of addPropertyToRdfCacheAsObject:
+                             *  1: subject uri in mapping file
+                             *  2: property uri
+                             *  3: input label in rdfCache
+                             *  4: input class in rdfCache
+                             *  5: reply of service
+                             *  6: language (XML or JSON)
+                             */
 
                             addPropertyToRdfCacheInputAsObject(subject,
                                     selectSamePropertyAs(inputURI).get(0),
@@ -1229,15 +1229,15 @@ public class QueryPlanner {
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
 
                 //if (key != -1) {
-                    addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
-                            propertyListResIsSub,    // List of properties with customResource as subject
-                            propertyListResIsOb,    // List of properties with customResource as object
-                            valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
-                            valuesArrayResIsOb,        //key: index of property (in propertyListResIsOb) and value extracted from xml or json
-                            inputIsSubject,            // key: uri of property and value of input
-                            inputIsObject,            // key: uri of property and value of input
-                            key
-                    );
+                addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
+                        propertyListResIsSub,    // List of properties with customResource as subject
+                        propertyListResIsOb,    // List of properties with customResource as object
+                        valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
+                        valuesArrayResIsOb,        //key: index of property (in propertyListResIsOb) and value extracted from xml or json
+                        inputIsSubject,            // key: uri of property and value of input
+                        inputIsObject,            // key: uri of property and value of input
+                        key
+                );
                 //}
 
                 List<String> objectValues = valuesArrayResIsSub.get(indexLista).get(key);
@@ -1672,6 +1672,14 @@ public class QueryPlanner {
             Resource classeResource = rdfCache.createResource(type);
             resource.addProperty(RDF.type, classeResource);
             resource.addLiteral(RDFS.label, label.replaceAll("\"", ""));
+            // if type == custom resource -> search for another type of the same resource.
+            if (Endpoint.ADDED_RESOURCE.equalsIgnoreCase(type)) {
+                String typeOfCustomResourceString = getTypeOfCustomResource(mappingURI);
+                if (typeOfCustomResourceString != null) {
+                    Resource typeOfCustomResource = rdfCache.createResource(typeOfCustomResourceString);
+                    resource.addProperty(RDF.type, typeOfCustomResource);
+                }
+            }
         }
 
     }
@@ -2308,13 +2316,56 @@ public class QueryPlanner {
         QueryExecution qexec = QueryExecutionFactory.create(query, model);
         ResultSet result = qexec.execSelect();
 
-        if (result.hasNext()) {
+        boolean isCustomResource = false;
+
+        while (result.hasNext()) {
             QuerySolution solution = result.nextSolution();
             Resource type = solution.getResource("type");
-            return type.toString();
-        } else {
-            return null;
+            if (type.toString().equalsIgnoreCase(Endpoint.ADDED_RESOURCE)) {
+                isCustomResource = true;
+            }
         }
+
+        if (isCustomResource) {
+            return Endpoint.ADDED_RESOURCE;
+        } else {
+            // workaround, there is not a result.fist() to restore the result set
+            qexec = QueryExecutionFactory.create(query, model);
+            result = qexec.execSelect();
+
+            while (result.hasNext()) {
+                QuerySolution solution = result.nextSolution();
+                Resource type = solution.getResource("type");
+                if (!type.toString().equalsIgnoreCase(Endpoint.ADDED_RESOURCE)) {
+                    return type.toString();
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * If a resource has another type (other then custom resource) it return the type, otherwise return null.
+     * @param resourceURI URI in the mapping file
+     * @return
+     */
+    public String getTypeOfCustomResource(String resourceURI) {
+        String queryStr = "select ?type where { "
+                + "<" + resourceURI + "> <" + RDF.type + "> <"  + Endpoint.ADDED_RESOURCE + "> . "
+                + "<" + resourceURI + "> <" + RDF.type + "> ?type }";
+
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qexec = QueryExecutionFactory.create(query, model);
+        ResultSet result = qexec.execSelect();
+
+        while (result.hasNext()) {
+            QuerySolution solution = result.nextSolution();
+            Resource type = solution.getResource("type");
+            if (!type.toString().equalsIgnoreCase(Endpoint.ADDED_RESOURCE)) {
+                return type.toString();
+            }
+        }
+        return null;
     }
 
 
