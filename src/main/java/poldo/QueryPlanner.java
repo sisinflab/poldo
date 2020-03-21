@@ -253,7 +253,7 @@ public class QueryPlanner {
         writeServicesAndInputClass();
         writeServicesAndInputs();
 
-        //add to constantstabele values of keys of API (fixed values)
+        //add to constantsTable values of keys of API (fixed values)
         addFixedValueToConstantsTable();
 
         boolean nuoviValori = true;
@@ -346,6 +346,9 @@ public class QueryPlanner {
     public void callFreeSources() {
 
         ArrayList<String> freeSources = getFreeSources();
+
+        //Key: URI of the resource in RDF Cache. Value: URI of the resource in Model (mapping)
+        HashMap<String, String> customResourceUriCacheAndModelMap = new HashMap<>();
 
         for (int indexSource = 0; indexSource < freeSources.size(); indexSource++) {
 
@@ -464,10 +467,10 @@ public class QueryPlanner {
 
                 //add to rdfCache
                 for (int i = 0; i < addedResourcesList.size(); i++) {
-                    addAddedResourceWithPropertiesToRdfCache(addedResourcesList.get(i),
+                    customResourceUriCacheAndModelMap.putAll(addAddedResourceWithPropertiesToRdfCache(addedResourcesList.get(i),
                             response,
                             languageOfService,
-                            null);
+                            null));
                 }
 
                 //search for properties between outputs
@@ -489,6 +492,8 @@ public class QueryPlanner {
             }
 
         }
+
+        addPropertiesBetweenCustomResources(customResourceUriCacheAndModelMap);
 
     }
 
@@ -532,6 +537,8 @@ public class QueryPlanner {
 
         boolean nuoviValori = false;
 
+        //Key: URI of the resource in RDF Cache. Value: URI of the resource in Model (mapping)
+        HashMap<String, String> customResourceUriCacheAndModelMap = new HashMap<>();
 
         //list of input uri in mapping file
         List<String> inputList = new ArrayList<String>();
@@ -723,10 +730,10 @@ public class QueryPlanner {
 
                     //add to rdfCache
                     for (int i = 0; i < addedResourcesList.size(); i++) {
-                        addAddedResourceWithPropertiesToRdfCache(addedResourcesList.get(i),
+                        customResourceUriCacheAndModelMap.putAll(addAddedResourceWithPropertiesToRdfCache(addedResourcesList.get(i),
                                 response,
                                 languageOfService,
-                                params);
+                                params));
                     }
 
 
@@ -884,8 +891,43 @@ public class QueryPlanner {
 
         }
 
+        addPropertiesBetweenCustomResources(customResourceUriCacheAndModelMap);
+
         return nuoviValori;
 
+    }
+
+    public void addPropertiesBetweenCustomResources(HashMap<String, String> customResourceUriCacheAndModelMap) {
+
+        HashMap<String, String> propertyAndObjectMap = new HashMap<>();
+
+        // Loop every custom resource generated
+        for (Map.Entry<String, String> subjectEntry: customResourceUriCacheAndModelMap.entrySet()) {
+            String subjectCacheUri = subjectEntry.getKey();
+            String subjectModelUri = subjectEntry.getValue();
+            propertyAndObjectMap = getPropertyBetweenCustomResource (subjectModelUri);
+
+            // Loop every property connecting this resource with another custom resource
+            for (Map.Entry<String, String> propertyAndObjectEntry: propertyAndObjectMap.entrySet()) {
+
+                String propertyUri = propertyAndObjectEntry.getKey();
+                String correspondingObjectModelUri = propertyAndObjectEntry.getValue();
+
+                // Loop again every custom resource generated (to be used as object)
+                for (Map.Entry<String, String> objectEntry : customResourceUriCacheAndModelMap.entrySet()) {
+                    String objectCacheUri = objectEntry.getKey();
+                    String objectModelUri = objectEntry.getValue();
+
+                    // Add to RDF Cache if the resource has the same mapping URI of correspondingObjectModelUri
+                    if (correspondingObjectModelUri.equals(objectModelUri)){
+                        Resource resourceSubj = rdfCache.createResource(subjectCacheUri);
+                        Resource resourceObj = rdfCache.createResource(objectCacheUri);
+                        Property property = rdfCache.createProperty(propertyUri);
+                        resourceSubj.addProperty(property, resourceObj);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -1027,9 +1069,12 @@ public class QueryPlanner {
     }
 
 
-    public void addAddedResourceWithPropertiesToRdfCache(String addedResourceURIModel, String response, String languageOfService, HashMap<String, String> params) throws ParserConfigurationException, SAXException, IOException {
+    public HashMap<String, String> addAddedResourceWithPropertiesToRdfCache(String addedResourceURIModel, String response, String languageOfService, HashMap<String, String> params) throws ParserConfigurationException, SAXException, IOException {
 
         customResourceIndex++;
+
+        //Key: URI of the resource in RDF Cache. Value: URI of the resource in Model (mapping)
+        HashMap<String, String> customResourceUriCacheAndModelMap = new HashMap<>();
 
         //output related to customResource
         ArrayList<String> linkedOutputsList = new ArrayList<String>();
@@ -1214,7 +1259,7 @@ public class QueryPlanner {
 
         }
 
-        //scan hashmap list and add resources and propertires to rdfCache
+        //scan hashmap list and add resources and properties to rdfCache
         //res is subject
         for (int indexLista = 0; indexLista < valuesArrayResIsSub.size(); indexLista++) {
 
@@ -1229,7 +1274,7 @@ public class QueryPlanner {
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
 
                 //if (key != -1) {
-                addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
+                String customResourceWithClass = addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
                         propertyListResIsSub,    // List of properties with customResource as subject
                         propertyListResIsOb,    // List of properties with customResource as object
                         valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
@@ -1239,6 +1284,10 @@ public class QueryPlanner {
                         key
                 );
                 //}
+
+                if (!customResourceWithClass.equals("")) {
+                    customResourceUriCacheAndModelMap.put(customResourceWithClass, addedResourceURIModel);
+                }
 
                 List<String> objectValues = valuesArrayResIsSub.get(indexLista).get(key);
 
@@ -1313,7 +1362,7 @@ public class QueryPlanner {
 
                 String addedResourceLabel = addedResourceURIModel + "R" + key + "-" + customResourceIndex;
                 if (key != -1) {
-                    addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
+                    String customResourceWithClass = addResourceToRdfCache(addedResourceLabel, Endpoint.ADDED_RESOURCE, addedResourceURIModel,
                             propertyListResIsSub,    // List of properties with customResource as subject
                             propertyListResIsOb,    // List of properties with customResource as object
                             valuesArrayResIsSub,    //key: index of property (in propertyListResIsSub) and value extracted from xml or json
@@ -1322,6 +1371,10 @@ public class QueryPlanner {
                             inputIsObject,            // key: uri of property and value of input
                             key
                     );
+
+                    if (!customResourceWithClass.equals("")) {
+                        customResourceUriCacheAndModelMap.put(customResourceWithClass, addedResourceURIModel);
+                    }
                 }
 
                 List<String> subjectValues = valuesArrayResIsOb.get(indexLista).get(key);
@@ -1367,7 +1420,7 @@ public class QueryPlanner {
 
             }
         }
-
+        return customResourceUriCacheAndModelMap;
     }
 
     public String getCommonAncestor(ArrayList<String> outputList) {
@@ -1581,15 +1634,18 @@ public class QueryPlanner {
      * @param valuesArrayResIsOb   key: index of property (in propertyListResIsOb) and value extracted from xml or json
      * @param inputIsSubject       key: uri of property and value of input
      * @param inputIsObject        key: uri of property and value of input
+     * @return customResourceWithClass URI of the new resource, only when a custom resource with a specified class has been added to RdfCache.
      */
-    public void addResourceToRdfCache(String label, String type, String mappingURI,
-                                      ArrayList<String> propertyListResIsSub,
-                                      ArrayList<String> propertyListResIsOb,
-                                      ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
-                                      ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
-                                      HashMap<String, String> inputIsSubject,
-                                      HashMap<String, String> inputIsObject,
-                                      int key) {
+    public String addResourceToRdfCache(String label, String type, String mappingURI,
+                                        ArrayList<String> propertyListResIsSub,
+                                        ArrayList<String> propertyListResIsOb,
+                                        ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsSub,
+                                        ArrayList<HashMap<Integer, ArrayList<String>>> valuesArrayResIsOb,
+                                        HashMap<String, String> inputIsSubject,
+                                        HashMap<String, String> inputIsObject,
+                                        int key) {
+
+        String customResourceWithClass = "";
 
         if (label.startsWith("\"")) {
             label = label.substring(1, label.length() - 1);
@@ -1678,10 +1734,12 @@ public class QueryPlanner {
                 if (typeOfCustomResourceString != null) {
                     Resource typeOfCustomResource = rdfCache.createResource(typeOfCustomResourceString);
                     resource.addProperty(RDF.type, typeOfCustomResource);
+                    // add resourceURI to the list of customResource created within this http calll
+                    customResourceWithClass = resourceUriString;
                 }
             }
         }
-
+        return customResourceWithClass;
     }
 
 
@@ -1921,6 +1979,47 @@ public class QueryPlanner {
         }
 
         return propertyList;
+    }
+
+    public HashMap<String, String> getPropertyBetweenCustomResource(String subjectString) {
+        HashMap<String, String> propertyObjectMap = new HashMap<>();
+
+        // Select properties when object is a custom property and it has another specified type
+        String queryStr = "select ?prop ?obj where {"
+                + "<" + subjectString + "> ?prop ?obj . "
+                + "?obj <" + RDF.type + "> <" + Endpoint.ADDED_RESOURCE + "> . "
+                + "?obj <" + RDF.type + "> ?type . "
+                + "FILTER ( ?type != <" + Endpoint.ADDED_RESOURCE + "> ) } ";
+
+        Query query = QueryFactory.create(queryStr);
+        QueryExecution qexec = QueryExecutionFactory.create(query, model);
+        ResultSet result = qexec.execSelect();
+
+        while (result.hasNext()) {
+            QuerySolution solution = result.nextSolution();
+            Resource property = solution.getResource("prop");
+            Resource object = solution.getResource("obj");
+            String propertyString = property.toString();
+            String objectString = object.toString();
+
+            if (!propertyString.equalsIgnoreCase(Endpoint.PARAM_NAME) &
+                    !propertyString.equalsIgnoreCase(Endpoint.FIND_URI) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_FIXED_VALUE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.IS_RELATED_TO_SERVICE) &
+                    !propertyString.equalsIgnoreCase(Endpoint.HAS_STRUCTURE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISREQUIRED_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ISDATA_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.CONTENT_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.ATTRIBUTE_PROPERTY) &
+                    !propertyString.equalsIgnoreCase(Endpoint.SAME_PROPERTY_AS) &
+                    !propertyString.equalsIgnoreCase(RDFS.label.toString()) &
+                    !propertyString.equalsIgnoreCase(RDF.type.toString()) &
+                    !propertyString.equalsIgnoreCase(Endpoint.LI_PROPERTY)) {
+                propertyObjectMap.put(propertyString, objectString);
+            }
+        }
+
+        return propertyObjectMap;
     }
 
 
